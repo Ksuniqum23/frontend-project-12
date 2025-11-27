@@ -1,0 +1,13 @@
+1. npm init -y
+2. vite in /frontend
+    npm create vite@latest frontend -- --template react
+3. Сервер
+        https://www.npmjs.com/package/@hexlet/chat-server
+    npm i @hexlet/chat-server
+    npx start-server
+
+4.
+    sudo apt update
+    sudo apt install make -y
+
+
