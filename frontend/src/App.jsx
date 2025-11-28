@@ -1,6 +1,6 @@
 import {Link, Route, Routes} from "react-router-dom";
-import NotFoundPage from "./components/NotFoundPage.jsx";
-import LoginPage from "./components/LoginPage.jsx";
+import NotFoundPage from "./components/pages/NotFoundPage.jsx";
+import LoginPage from "./components/pages/LoginPage.jsx";
 
 function HomePage() {
     return (

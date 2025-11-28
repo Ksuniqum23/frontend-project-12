@@ -1,8 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {useFormik} from "formik";
+import {loginUser} from "../auth.js";
 
 function LoginPage() {
+    const navigate = useNavigate();
     const formik = useFormik({
         // Начальные значения полей
         initialValues: {
@@ -10,10 +12,20 @@ function LoginPage() {
             password: ''
         },
 
-        // Функция отправки формы
-        onSubmit: (values) => {
-            console.log('Данные формы:', values);
-            // Здесь будет запрос к API
+        onSubmit: async (values, { setSubmitting, setStatus }) => {
+            try {
+                console.log('Данные формы:', values);
+                const userData = await loginUser(values.username, values.password);
+                console.log('Авторизация успешна!');
+                console.log('Токен:', userData.token);
+                console.log('Пользователь:', userData.username);
+                navigate('/');
+            } catch (error) {
+                console.error('Ошибка авторизации:', error);
+                setStatus({ error: error.message });
+            } finally {
+                setSubmitting(false);
+            }
         },
     });
 
@@ -23,7 +35,7 @@ function LoginPage() {
 
                 <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
                     <div className="container">
-                        <a className="navbar-brand" href="/">Hexlet Chat</a>
+                        <a className="navbar-brand" href="/frontend/public">Hexlet Chat</a>
                     </div>
                 </nav>
 

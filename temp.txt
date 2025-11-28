@@ -21,3 +21,6 @@
 6. FORMIK
     npm install formik yup
         //yup для валидации
+
+    npm install axios
+        //для запросов
