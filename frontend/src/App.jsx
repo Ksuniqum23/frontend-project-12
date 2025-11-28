@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
 import {Link, Route, Routes} from "react-router-dom";
+import NotFoundPage from "./components/NotFoundPage.jsx";
 
 function HomePage() {
     const [count, setCount] = useState(0)
@@ -35,7 +36,12 @@ function HomePage() {
 }
 
 function LoginPage() {
-    return <h1>Страница входа</h1>
+    return (
+        <>
+            <Link to="/">Main page</Link>
+            <h1>Страница входа</h1>
+        </>
+    )
 }
 
 function App() {
@@ -43,6 +49,7 @@ function App() {
         <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="*" element={<NotFoundPage />} />
         </Routes>
     )
 }
