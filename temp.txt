@@ -10,4 +10,5 @@
     sudo apt update
     sudo apt install make -y
 
-
+5. РОУТИНГ
+    npm install react-router-dom
