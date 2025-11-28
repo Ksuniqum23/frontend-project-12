@@ -11,9 +11,12 @@
     "start": "npx start-server -s ./dist -p $PORT"
   },
   "dependencies": {
+    "bootstrap": "^5.3.8",
+    "formik": "^2.4.9",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^7.9.6"
+    "react-router-dom": "^7.9.6",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
