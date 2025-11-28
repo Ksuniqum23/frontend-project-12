@@ -1,7 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import {useFormik} from "formik";
 
 function LoginPage() {
+    const formik = useFormik({
+        // Начальные значения полей
+        initialValues: {
+            username: '',
+            password: ''
+        },
+
+        // Функция отправки формы
+        onSubmit: (values) => {
+            console.log('Данные формы:', values);
+            // Здесь будет запрос к API
+        },
+    });
+
     return (
         <div className="h-100">
             <div className="d-flex flex-column h-100">
@@ -21,29 +36,40 @@ function LoginPage() {
                                     <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                                         <img src="/avatar-login.jpg" className="rounded-circle" alt="Войти"/>
                                     </div>
-                                    <form className="col-12 col-md-6 mt-3 mt-md-0">
+                                    <form className="col-12 col-md-6 mt-3 mt-md-0"
+                                          onSubmit={formik.handleSubmit}>
+
                                         <h1 className="text-center mb-4">Войти</h1>
                                         <div className="form-floating mb-3">
                                             <input name="username"
                                                    autoComplete="username" required=""
                                                    placeholder="Ваш ник" id="username"
                                                    className="form-control"
-                                                   value=""
+                                                   value={formik.values.username} // Берем значение из Formik
+                                                   onChange={formik.handleChange} // Обработчик изменений
+                                                   onBlur={formik.handleBlur} // Отслеживаем "тронутость" поля
                                             />
                                             <label htmlFor="username">Ваш ник</label>
                                         </div>
+
                                         <div className="form-floating mb-4">
                                             <input name="password"
                                                    autoComplete="current-password"
-                                                   required="" placeholder="Пароль"
-                                                   type="password" id="password"
+                                                   required=""
+                                                   placeholder="Пароль"
+                                                   type="password"
+                                                   id="password"
                                                    className="form-control"
-                                                   value=""
+                                                   value={formik.values.password} // Берем значение из Formik
+                                                   onChange={formik.handleChange} // Обработчик изменений
+                                                   onBlur={formik.handleBlur} // Отслеживаем "тронутость" поля
                                             />
                                             <label className="form-label" htmlFor="password">Пароль</label>
                                         </div>
+
                                         <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти
                                         </button>
+
                                     </form>
                                 </div>
 
@@ -60,7 +86,6 @@ function LoginPage() {
                 </div>
             </div>
         </div>
-
     )
 }
 
