@@ -4,12 +4,13 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import {useFormik} from "formik";
 import {loginUser} from "../api/auth.js";
 import {loginFailure, loginStart, loginSuccess} from "../../store/authSlice.js";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 function LoginPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
+    const { loading } = useSelector(state => state.auth);
 
     const from = location.state?.from?.pathname || "/";
 
@@ -20,15 +21,24 @@ function LoginPage() {
             password: ''
         },
 
+        validate: values => {
+            const errors = {};
+            if (!values.username) errors.username = 'Введите username';
+            if (!values.password) errors.password = 'Введите пароль';
+            return errors;
+        },
+
         onSubmit: async (values, { setSubmitting, setStatus }) => {
-            dispatch(loginStart()); // запускаем процесс логина
+            setStatus({ error: null });
+            dispatch(loginStart());
             try {
-                const data = await loginUser(values.username, values.password); // запрос на сервер
-                dispatch(loginSuccess({token: data.token, username: data.username})); // успех
-                navigate(from, {replace: true}); // редирект после логина
+                const data = await loginUser(values.username, values.password);
+                dispatch(loginSuccess({token: data.token, username: data.username}));
+                navigate(from, {replace: true});
             } catch (error) {
-                dispatch(loginFailure(error.message)); // ошибка логина
-                setStatus({error: error.message});   // чтобы Formik показал ошибку
+                let message = 'Ошибка авторизации';
+                dispatch(loginFailure(error.message));
+                setStatus({error: message});
             } finally {
                 setSubmitting(false); // завершение процесса загрузки в Formik
             }
@@ -67,6 +77,9 @@ function LoginPage() {
                                                    onChange={formik.handleChange} // Обработчик изменений
                                                    onBlur={formik.handleBlur} // Отслеживаем "тронутость" поля
                                             />
+                                            {formik.touched.username && formik.errors.username && (
+                                                <div style={{ color: 'red', fontSize: 13 }}>{formik.errors.username}</div>
+                                            )}
                                             <label htmlFor="username">Ваш ник</label>
                                         </div>
 
@@ -82,6 +95,9 @@ function LoginPage() {
                                                    onChange={formik.handleChange} // Обработчик изменений
                                                    onBlur={formik.handleBlur} // Отслеживаем "тронутость" поля
                                             />
+                                            {formik.touched.password && formik.errors.password && (
+                                                <div style={{ color: 'red', fontSize: 13 }}>{formik.errors.password}</div>
+                                            )}
                                             <label className="form-label" htmlFor="password">Пароль</label>
                                         </div>
 
@@ -90,6 +106,19 @@ function LoginPage() {
 
                                     </form>
                                 </div>
+
+                                {formik.status?.error && (
+                                    <div style={{
+                                        marginBottom: 12,
+                                        padding: 10,
+                                        background: '#ffecec',
+                                        color: '#b00020',
+                                        borderRadius: 4,
+                                        border: '1px solid #f5c2c2'
+                                    }}>
+                                        {formik.status.error}
+                                    </div>
+                                )}
 
                                 <div className="card-footer p-4">
                                     <div className="text-center">
