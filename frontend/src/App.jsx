@@ -1,7 +1,7 @@
 import {Route, Routes} from "react-router-dom";
 import NotFoundPage from "./components/pages/NotFoundPage.jsx";
 import LoginPage from "./components/pages/LoginPage.jsx";
-import HomePage from "./components/pages/HomePage.jsx";
+import ChatPage from "./components/pages/ChatPage.jsx";
 import PrivateRoute from "./components/PrivatRoute.jsx";
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
                 path="/"
                 element={
                     <PrivateRoute>
-                        <HomePage />
+                        <ChatPage />
                     </PrivateRoute>
                 }
             />
