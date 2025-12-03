@@ -24,3 +24,5 @@
 
     npm install axios
         //для запросов
+    npm install @reduxjs/toolkit react-redux
+        //редакс в ФРОНТЕНД!!!

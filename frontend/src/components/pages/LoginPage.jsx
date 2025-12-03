@@ -1,10 +1,18 @@
+//!!!!STATE!!!!!!//
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import {useFormik} from "formik";
-import {loginUser} from "../auth.js";
+import {loginUser} from "../api/auth.js";
+import {loginFailure, loginStart, loginSuccess} from "../../store/authSlice.js";
+import {useDispatch} from "react-redux";
 
 function LoginPage() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || "/";
+
     const formik = useFormik({
         // Начальные значения полей
         initialValues: {
@@ -13,18 +21,16 @@ function LoginPage() {
         },
 
         onSubmit: async (values, { setSubmitting, setStatus }) => {
+            dispatch(loginStart()); // запускаем процесс логина
             try {
-                console.log('Данные формы:', values);
-                const userData = await loginUser(values.username, values.password);
-                console.log('Авторизация успешна!');
-                console.log('Токен:', userData.token);
-                console.log('Пользователь:', userData.username);
-                navigate('/');
+                const data = await loginUser(values.username, values.password); // запрос на сервер
+                dispatch(loginSuccess({token: data.token, username: data.username})); // успех
+                navigate(from, {replace: true}); // редирект после логина
             } catch (error) {
-                console.error('Ошибка авторизации:', error);
-                setStatus({ error: error.message });
+                dispatch(loginFailure(error.message)); // ошибка логина
+                setStatus({error: error.message});   // чтобы Formik показал ошибку
             } finally {
-                setSubmitting(false);
+                setSubmitting(false); // завершение процесса загрузки в Formik
             }
         },
     });
@@ -102,3 +108,21 @@ function LoginPage() {
 }
 
 export default LoginPage
+
+
+// onSubmit: async (values, { setSubmitting, setStatus }) => {
+//     try {
+//         console.log('Данные формы:', values);
+//         const userData = await loginUser(values.username, values.password);
+//         console.log('Авторизация успешна!');
+//         console.log('Токен:', userData.token);
+//         console.log('DATA:', userData);
+//         // navigate('/');
+//         navigate(from, { replace: true });
+//     } catch (error) {
+//         console.error('Ошибка авторизации:', error);
+//         setStatus({ error: error.message });
+//     } finally {
+//         setSubmitting(false);
+//     }
+// },

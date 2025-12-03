@@ -1,15 +1,12 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import {tokenService} from "./services/tokenService.js";
 
 const PrivateRoute = ({ children }) => {
-    // Проверяем есть ли токен в localStorage
-    const token = localStorage.getItem('authToken');
-
-    // Если токена нет - редирект на /login
-    if (!token) {
-        return <Navigate to="/login" replace />;
+    const location = useLocation();
+    const isAuth = tokenService.isValid();
+    if (!isAuth) {
+        return <Navigate to="/login" replace state={{ from: location }} />;
     }
-
-    // Если токен есть - показываем защищенный контент
     return children;
 };
 
