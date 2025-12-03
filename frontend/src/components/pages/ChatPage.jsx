@@ -1,9 +1,14 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {fetchInitialData, setActiveChannel} from "../../store/chatSlice.js";
+import {tokenService} from "../services/tokenService.js";
+import {logout} from "../../store/authSlice.js";
+import {useNavigate} from "react-router-dom";
+import {logoutUser} from "../api/auth.js";
 
 export default function ChatPage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchInitialData());
@@ -16,6 +21,12 @@ export default function ChatPage() {
 
     const activeChannel = channels.find(ch => ch.id === activeChannelId);
 
+    const handleLogout = () => {
+        logoutUser();
+        dispatch(logout());
+        navigate("/login");
+    };
+
     return (
         <div className="h-100">
             <div className="h-100" id="chat">
@@ -24,7 +35,7 @@ export default function ChatPage() {
                     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
                         <div className="container">
                             <a className="navbar-brand" href="/">Hexlet Chat</a>
-                            <button type="button" className="btn btn-primary">Выйти</button>
+                            <button type="button" className="btn btn-primary" onClick={handleLogout}>Выйти</button>
                         </div>
                     </nav>
 

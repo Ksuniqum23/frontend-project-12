@@ -27,9 +27,9 @@ export const loginUser = async (username, password) => {
     }
 }
 
-// export const logoutUser = () => {
-//     tokenService.remove();
-// };
+export const logoutUser = () => {
+    tokenService.remove();
+};
 
 // export const getToken = () => {
 //     return localStorage.getItem('authToken');
