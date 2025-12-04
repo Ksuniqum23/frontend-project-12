@@ -23,7 +23,7 @@ function LoginPage() {
 
         validate: values => {
             const errors = {};
-            if (!values.username) errors.username = 'Введите username';
+            if (!values.username) errors.username = 'Введите логин';
             if (!values.password) errors.password = 'Введите пароль';
             return errors;
         },
@@ -65,11 +65,8 @@ function LoginPage() {
                                         <img src="/avatar-login.jpg" className="rounded-circle" alt="Войти" />
                                     </div>
                                     <form className="col-12 col-md-6 mt-3 mt-md-0"
-                                        onSubmit={(e) => {
-                                            e.preventDefault();
-                                            formik.handleSubmit(e);
-                                        }}
-                                        noValidate>
+                                          onSubmit={formik.handleSubmit}
+                                    >
 
                                         <h1 className="text-center mb-4">Войти</h1>
                                         <div className="form-floating mb-3">
@@ -127,7 +124,7 @@ function LoginPage() {
 
                                 <div className="card-footer p-4">
                                     <div className="text-center">
-                                        <span>Нет аккаунта?</span>
+                                        <span>Нет аккаунта? </span>
                                         <Link to="/signup">Регистрация</Link>
                                     </div>
                                 </div>

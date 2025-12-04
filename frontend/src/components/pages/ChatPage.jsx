@@ -96,7 +96,7 @@ export default function ChatPage() {
                                             //             <div>{m.body}</div>
                                             //         </div>
                                             //     )
-                                            <p>i'm here!</p>
+                                            <p>Тут окно сообщений</p>
                                         )}
                                     </div>
 
