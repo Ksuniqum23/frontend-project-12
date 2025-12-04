@@ -79,41 +79,50 @@ export default function ChatPage() {
                                         <span className="text-muted">{messages.filter((m) => m.channelId === activeChannelId).length} сообщений</span>
                                     </div>
 
-                                    {/*<div id="messages-box" className="chat-messages overflow-auto px-5" ref={messagesBoxRef} style={{ minHeight: 200 }}>*/}
-                                    {/*    {loading ? (*/}
-                                    {/*        <div>Загрузка сообщений...</div>*/}
-                                    {/*    ) : error ? (*/}
-                                    {/*        <div className="text-danger">{error}</div>*/}
-                                    {/*    ) : (*/}
-                                    {/*        messages*/}
-                                    {/*            .filter((m) => m.channelId === activeChannelId)*/}
-                                    {/*            .map((m) => (*/}
-                                    {/*                <div className="my-2" key={m.id}>*/}
-                                    {/*                    <div className="fw-bold small">{m.username} <small className="text-muted">{formatDate(m.createdAt)}</small></div>*/}
-                                    {/*                    <div>{m.body}</div>*/}
-                                    {/*                </div>*/}
-                                    {/*            ))*/}
-                                    {/*    )}*/}
-                                    {/*</div>*/}
+                                    <div id="messages-box" className="chat-messages overflow-auto px-5"
+                                         // ref={messagesBoxRef}
+                                         style={{ minHeight: 200 }}>
+                                        {loading ? (
+                                            <div>Загрузка сообщений...</div>
+                                        // ) : error ? (
+                                        //     <div className="text-danger">{'какая-то ошибка'}</div>
+                                         )
+                                            : (
+                                            // messages
+                                            //     .filter((m) => m.channelId === activeChannelId)
+                                            //     .map((m) => (
+                                            //         <div className="my-2" key={m.id}>
+                                            //             <div className="fw-bold small">{m.username} <small className="text-muted">{formatDate(m.createdAt)}</small></div>
+                                            //             <div>{m.body}</div>
+                                            //         </div>
+                                            //     )
+                                            <p>i'm here!</p>
+                                        )}
+                                    </div>
 
-                                    {/*<div className="mt-auto px-5 py-3">*/}
-                                    {/*    <form onSubmit={handleSend} className="py-1 border rounded-2">*/}
-                                    {/*        <div className="input-group has-validation">*/}
-                                    {/*            <input*/}
-                                    {/*                name="body"*/}
-                                    {/*                aria-label="Новое сообщение"*/}
-                                    {/*                placeholder={activeChannel ? 'Введите сообщение...' : 'Выберите канал'}*/}
-                                    {/*                className="border-0 p-0 ps-2 form-control"*/}
-                                    {/*                value={body}*/}
-                                    {/*                onChange={(e) => setBody(e.target.value)}*/}
-                                    {/*                disabled={!activeChannel || sending}*/}
-                                    {/*            />*/}
-                                    {/*            <button type="submit" disabled={!body.trim() || sending || !activeChannel} className="btn btn-group-vertical">*/}
-                                    {/*                Отправить*/}
-                                    {/*            </button>*/}
-                                    {/*        </div>*/}
-                                    {/*    </form>*/}
-                                    {/*</div>*/}
+                                    <div className="mt-auto px-5 py-3">
+                                        <form
+                                            // onSubmit={handleSend}
+                                            className="py-1 border rounded-2"
+                                        >
+                                            <div className="input-group has-validation">
+                                                <input
+                                                    name="body"
+                                                    aria-label="Новое сообщение"
+                                                    placeholder={activeChannel ? 'Введите сообщение...' : 'Выберите канал'}
+                                                    className="border-0 p-0 ps-2 form-control"
+                                                    // value={body}
+                                                    // onChange={(e) => setBody(e.target.value)}
+                                                    // disabled={!activeChannel || sending}
+                                                />
+                                                <button type="submit"
+                                                        // disabled={!body.trim() || sending || !activeChannel}
+                                                        className="btn btn-group-vertical">
+                                                    Отправить
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
 
                                 </div>
                             </div>
