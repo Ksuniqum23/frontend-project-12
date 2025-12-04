@@ -1,10 +1,10 @@
 //!!!!STATE!!!!!!//
 import React from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import {useFormik} from "formik";
-import {loginUser} from "../api/auth.js";
-import {loginFailure, loginStart, loginSuccess} from "../../store/authSlice.js";
-import {useDispatch, useSelector} from "react-redux";
+import { useFormik } from "formik";
+import { loginUser } from "../api/auth.js";
+import { loginFailure, loginStart, loginSuccess } from "../../store/authSlice.js";
+import { useDispatch, useSelector } from "react-redux";
 
 function LoginPage() {
     const dispatch = useDispatch();
@@ -33,12 +33,12 @@ function LoginPage() {
             dispatch(loginStart());
             try {
                 const data = await loginUser(values.username, values.password);
-                dispatch(loginSuccess({token: data.token, username: data.username}));
-                navigate(from, {replace: true});
+                dispatch(loginSuccess({ token: data.token, user: data.username }));
+                navigate(from, { replace: true });
             } catch (error) {
                 let message = 'Ошибка авторизации';
                 dispatch(loginFailure(error.message));
-                setStatus({error: message});
+                setStatus({ error: message });
             } finally {
                 setSubmitting(false); // завершение процесса загрузки в Formik
             }
@@ -62,20 +62,25 @@ function LoginPage() {
 
                                 <div className="card-body row p-5">
                                     <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                                        <img src="/avatar-login.jpg" className="rounded-circle" alt="Войти"/>
+                                        <img src="/avatar-login.jpg" className="rounded-circle" alt="Войти" />
                                     </div>
                                     <form className="col-12 col-md-6 mt-3 mt-md-0"
-                                          onSubmit={formik.handleSubmit}>
+                                        onSubmit={(e) => {
+                                            e.preventDefault();
+                                            formik.handleSubmit(e);
+                                        }}
+                                        noValidate>
 
                                         <h1 className="text-center mb-4">Войти</h1>
                                         <div className="form-floating mb-3">
                                             <input name="username"
-                                                   autoComplete="username" required=""
-                                                   placeholder="Ваш ник" id="username"
-                                                   className="form-control"
-                                                   value={formik.values.username} // Берем значение из Formik
-                                                   onChange={formik.handleChange} // Обработчик изменений
-                                                   onBlur={formik.handleBlur} // Отслеживаем "тронутость" поля
+                                                autoComplete="username"
+                                                // required=""
+                                                placeholder="Ваш ник" id="username"
+                                                className="form-control"
+                                                value={formik.values.username} // Берем значение из Formik
+                                                onChange={formik.handleChange} // Обработчик изменений
+                                                onBlur={formik.handleBlur} // Отслеживаем "тронутость" поля
                                             />
                                             {formik.touched.username && formik.errors.username && (
                                                 <div style={{ color: 'red', fontSize: 13 }}>{formik.errors.username}</div>
@@ -85,15 +90,15 @@ function LoginPage() {
 
                                         <div className="form-floating mb-4">
                                             <input name="password"
-                                                   autoComplete="current-password"
-                                                   required=""
-                                                   placeholder="Пароль"
-                                                   type="password"
-                                                   id="password"
-                                                   className="form-control"
-                                                   value={formik.values.password} // Берем значение из Formik
-                                                   onChange={formik.handleChange} // Обработчик изменений
-                                                   onBlur={formik.handleBlur} // Отслеживаем "тронутость" поля
+                                                autoComplete="current-password"
+                                                // required=""
+                                                placeholder="Пароль"
+                                                type="password"
+                                                id="password"
+                                                className="form-control"
+                                                value={formik.values.password} // Берем значение из Formik
+                                                onChange={formik.handleChange} // Обработчик изменений
+                                                onBlur={formik.handleBlur} // Отслеживаем "тронутость" поля
                                             />
                                             {formik.touched.password && formik.errors.password && (
                                                 <div style={{ color: 'red', fontSize: 13 }}>{formik.errors.password}</div>

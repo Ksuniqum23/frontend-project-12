@@ -21,11 +21,16 @@ const authSlice = createSlice({
             state.loading = false;
             state.isAuthenticated = true;
             state.token = action.payload.token;
-            state.user = action.payload.user;
+            state.user = action.payload.user || action.payload.username;
+            tokenService.set(action.payload.token);
         },
         loginFailure(state, action) {
+            state.isAuthenticated = false;
+            state.token = null;
+            state.user = null;
             state.loading = false;
             state.error = action.payload;
+            tokenService.remove();
         },
         logout(state) {
             state.isAuthenticated = false;

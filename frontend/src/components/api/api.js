@@ -1,5 +1,5 @@
 import axios from "axios";
-import {tokenService} from "../services/tokenService.js";
+import { tokenService } from "../services/tokenService.js";
 
 
 const api = axios.create({
@@ -20,11 +20,13 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        const { response } = error;
-        if (response && response.status === 401) {
-            // при 401 — удаляем токен и можно направить на логин
+        const { response, config } = error;
+        // Не перенаправляем на /login если запрос уже идёт на /login (неверные данные авторизации)
+        const isLoginRequest = config?.url?.includes('/login');
+        if (response && response.status === 401 && !isLoginRequest) {
+            // при 401 — удаляем токен и направляем на логин (кроме самого логина)
             tokenService.remove();
-            window.location.href = '/login';
+            // window.location.href = '/login';
         }
         return Promise.reject(error);
     },
