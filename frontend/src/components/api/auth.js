@@ -31,6 +31,27 @@ export const logoutUser = () => {
     tokenService.remove();
 };
 
+export const signupUser = async (username, password) => {
+    try {
+        const response = await api.post('/signup', { username, password });
+        const data = response.data;
+        console.log('data from server', data);
+        const token = data?.token;
+        if (!token) {
+            throw new Error('Токен не получен от сервера');
+        }
+
+        tokenService.set(token);
+        return data;
+    } catch (err) {
+        if (err.response) {
+            const msg = err.response.data?.message || `Ошибка сервера: ${err.response.status}`;
+            throw new Error(msg);
+        }
+        throw new Error(err.message || 'Неизвестная ошибка при регистрации');
+    }
+}
+
 // export const getToken = () => {
 //     return localStorage.getItem('authToken');
 // };
