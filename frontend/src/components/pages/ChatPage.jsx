@@ -79,9 +79,19 @@ export default function ChatPage() {
                                                     className={`w-100 rounded-0 text-start btn ${currentId === activeChannelId ? 'btn-secondary' : ''}`}
                                                     onClick={() => dispatch(setActiveChannel(currentId))}
                                                 >
-                                                    <span className="me-1">#</span>
-                                                    {channels[currentId].name}
+                                                <span className="me-1">#</span>
+                                                {channels[currentId].name}
                                                 </button>
+                                                if (channels[currentId].removable === true) {
+                                                    <button
+                                                        type="button"
+                                                        className="p-0 text-primary btn btn-group-vertical"
+                                                        aria-label="Удалить канал"
+                                                        onClick={() => setIsAddChannelModalOpen(true)}
+                                                    >
+                                                        -
+                                                    </button>
+                                                }
                                             </li>
                                         ))
                                     )}

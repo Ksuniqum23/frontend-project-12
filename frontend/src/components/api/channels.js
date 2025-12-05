@@ -11,4 +11,11 @@ export const addChannelApi = async (name) => {
     console.log('channelsResponse_POST_add', response);
     return response.data;
 }
+
+export const deleteChannelApi = async (channelId) => {
+    const response = await api.delete(`channels/${channelId}`);
+    console.log('channelsResponse_DELETE', response);
+    return response.data;
+}
+
 // export const removeChannelApi(id)

@@ -1,6 +1,7 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {addChannelApi, fetchChannelsApi} from "../components/api/channels.js";
-import {data} from "react-router-dom";
+import {createAsyncThunk, createEntityAdapter, createSlice} from "@reduxjs/toolkit";
+import {addChannelApi, deleteChannelApi, fetchChannelsApi} from "../components/api/channels.js";
+
+const channelsAdapter = createEntityAdapter();
 
 export const fetchChannels = createAsyncThunk(
     'channels/fetchChannels',
@@ -24,13 +25,22 @@ export const addChannel = createAsyncThunk(
     }
 )
 
-const initialState = {
-    entities: {}, // ключ = channel.id, значение = канал { id, name, removable }
-    ids: [], // упорядоченный массив id каналов
+export const deleteChannel = createAsyncThunk(
+    'channels/deleteChannel',
+    async (channelId, { rejectWithValue }) => {
+        try {
+            return await deleteChannelApi(channelId);
+        } catch (err) {
+            return rejectWithValue(err.message);
+        }
+    }
+)
+
+const initialState = channelsAdapter.getInitialState({
     activeChannelId: null,
     status: 'idle', // общий статус загрузки 'idle', 'loading', 'success', 'failed'
     error: null
-}
+})
 
 const channelSlice = createSlice({
     name: 'channels',
@@ -48,15 +58,9 @@ const channelSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchChannels.fulfilled, (state, action) => {
-                const channels = action.payload;
-                channels.forEach((channel) => {
-                    if (!state.entities[channel.id]) {
-                        state.ids.push(channel.id);
-                        state.entities[channel.id] = channel;
-                    }
-                })
-                if (!state.activeChannelId && channels.length > 0) {
-                    state.activeChannelId = channels[0].id;
+                channelsAdapter.setAll(state, action.payload);
+                if (!state.activeChannelId && action.payload.length > 0) {
+                    state.activeChannelId = action.payload[0].id;
                 }
                 state.status = 'success';
                 state.error = null;
@@ -72,9 +76,7 @@ const channelSlice = createSlice({
                 state.error = null;
             })
             .addCase(addChannel.fulfilled, (state, action) => {
-                const newChannel = action.payload;
-                state.entities[newChannel.id] = newChannel;
-                state.ids.push(newChannel.id);
+                channelsAdapter.addOne(state, action.payload);
                 state.status = 'success';
                 state.error = null;
             })
@@ -82,8 +84,28 @@ const channelSlice = createSlice({
                 state.error = action.payload || 'Ошибка при загрузке данных';
                 state.status = 'failed';
             })
+
+            // deleteChannel
+            .addCase(deleteChannel.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(deleteChannel.fulfilled, (state, action) => {
+                channelsAdapter.removeOne(state, action.payload);
+                state.status = 'success';
+            })
+            .addCase(deleteChannel.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload || 'Ошибка при удалении канала';
+            })
     }
-})
+});
+
+export const {
+    selectAll: selectAllChannels,
+    selectById: selectChannelById,
+    selectIds: selectChannelIds
+} = channelsAdapter.getSelectors((state) => state.channels);
 
 export const { setActiveChannel } = channelSlice.actions;
 export default channelSlice.reducer;
