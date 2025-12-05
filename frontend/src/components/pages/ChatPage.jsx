@@ -7,15 +7,19 @@ import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../api/auth.js";
 import {
     addChannel,
-    deleteChannel,
+    deleteChannel, editChannel,
     fetchChannels,
     selectAllChannels,
     setActiveChannel
 } from "../../store/channelsSlice.js";
 import AddChannelModal from "../AddChannelModal.jsx";
+import EditChannelModal from "../EditChannelModal.jsx";
+
 
 export default function ChatPage() {
     const [isAddChannelModalOpen, setIsAddChannelModalOpen] = useState(false);
+    const [isEditChannelModalOpen, setIsEditChannelModalOpen] = useState(false);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -38,6 +42,15 @@ export default function ChatPage() {
 
     const handleAddChannel = (name) => {
         dispatch(addChannel(name));
+    }
+
+    const handleOpenEditModal = (channel) => {
+        setIsEditChannelModalOpen(true);
+        EditChannelModal(channel);
+    }
+
+    const handleEditChannel = (channelId, newName) => {
+        dispatch(editChannel(channelId, newName));
     }
 
     return (
@@ -102,10 +115,16 @@ export default function ChatPage() {
                                                         <li>
                                                             <button
                                                                 className="dropdown-item"
-                                                                onClick={() => console.log('rename', channel.id)}
+                                                                onClick={handleOpenEditModal}
                                                             >
                                                                 Переименовать
                                                             </button>
+                                                            <EditChannelModal
+                                                                isOpen={isEditChannelModalOpen}
+                                                                onClose={() => setIsEditChannelModalOpen(false)}
+                                                                onSubmit={handleEditChannel}
+                                                                channel={channel}
+                                                            />
                                                         </li>
                                                         <li>
                                                             <button

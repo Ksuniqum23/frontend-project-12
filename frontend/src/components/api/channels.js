@@ -12,6 +12,12 @@ export const addChannelApi = async (name) => {
     return response.data;
 }
 
+export const editChannelApi = async (channelId, newName) => {
+    const response = await api.patch(`channels/${channelId}`, {name: newName});
+    console.log('channelsResponse_EDIT', response);
+    return response.data;
+}
+
 export const deleteChannelApi = async (channelId) => {
     const response = await api.delete(`channels/${channelId}`);
     console.log('channelsResponse_DELETE', response);

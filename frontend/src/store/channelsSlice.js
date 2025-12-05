@@ -1,5 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { addChannelApi, deleteChannelApi, fetchChannelsApi } from "../components/api/channels.js";
+import {addChannelApi, deleteChannelApi, editChannelApi, fetchChannelsApi} from "../components/api/channels.js";
 
 const channelsAdapter = createEntityAdapter();
 
@@ -19,6 +19,17 @@ export const addChannel = createAsyncThunk(
     async (name, { rejectWithValue }) => {
         try {
             return await addChannelApi(name);
+        } catch (err) {
+            return rejectWithValue(err.message);
+        }
+    }
+)
+
+export const editChannel = createAsyncThunk(
+    'channels/editChannel',
+    async (channelId, newName, { rejectWithValue }) => {
+        try {
+            return await editChannelApi(channelId, newName);
         } catch (err) {
             return rejectWithValue(err.message);
         }
@@ -81,6 +92,22 @@ const channelSlice = createSlice({
                 state.error = null;
             })
             .addCase(addChannel.rejected, (state, action) => {
+                state.error = action.payload || 'Ошибка при загрузке данных';
+                state.status = 'failed';
+            })
+
+            // editChannel
+            .addCase(editChannel.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(editChannel.fulfilled, (state, action) => {
+                channelsAdapter.updateOne(state, {
+                    id: action.payload.id,
+                    changes: action.payload,
+                });
+            })
+            .addCase(editChannel.rejected, (state, action) => {
                 state.error = action.payload || 'Ошибка при загрузке данных';
                 state.status = 'failed';
             })
