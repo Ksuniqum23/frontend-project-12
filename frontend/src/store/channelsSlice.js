@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {fetchChannelsApi} from "../components/api/channels.js";
+import {addChannelApi, fetchChannelsApi} from "../components/api/channels.js";
 
 export const fetchChannels = createAsyncThunk(
     'channels/fetchChannels',
@@ -8,6 +8,17 @@ export const fetchChannels = createAsyncThunk(
             return await fetchChannelsApi();
         } catch (err) {
             return rejectWithValue(err.message); // попадёт в rejected экстраредьюсер
+        }
+    }
+)
+
+export const addChannel = createAsyncThunk(
+    'channels/addChannel',
+    async (_, { rejectWithValue}) => {
+        try {
+            return await addChannelApi('qweqwe');
+        } catch (err) {
+            return rejectWithValue(err.message);
         }
     }
 )
@@ -30,6 +41,7 @@ const channelSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // fetchChannels
             .addCase(fetchChannels.pending, (state) => {
                 state.status = 'loading';
                 state.error = null;
@@ -49,6 +61,23 @@ const channelSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchChannels.rejected, (state, action) => {
+                state.error = action.payload || 'Ошибка при загрузке данных';
+                state.status = 'failed';
+            })
+
+            // addChannel
+            .addCase(addChannel.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(addChannel.fulfilled, (state, action) => {
+                const newChannel = action.payload;
+                state.entities[newChannel.id] = newChannel;
+                state.ids.push(newChannel.id);
+                state.status = 'success';
+                state.error = null;
+            })
+            .addCase(addChannel.rejected, (state, action) => {
                 state.error = action.payload || 'Ошибка при загрузке данных';
                 state.status = 'failed';
             })

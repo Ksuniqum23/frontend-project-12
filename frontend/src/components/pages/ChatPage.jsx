@@ -5,7 +5,7 @@ import {tokenService} from "../services/tokenService.js";
 import {logout} from "../../store/authSlice.js";
 import {useNavigate} from "react-router-dom";
 import {logoutUser} from "../api/auth.js";
-import {fetchChannels, setActiveChannel} from "../../store/channelsSlice.js";
+import {addChannel, fetchChannels, setActiveChannel} from "../../store/channelsSlice.js";
 
 export default function ChatPage() {
     const dispatch = useDispatch();
@@ -47,7 +47,13 @@ export default function ChatPage() {
                             <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
                                 <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
                                     <b>Каналы</b>
-                                    <button type="button" className="p-0 text-primary btn btn-group-vertical" aria-label="Создать канал">+
+                                    <button
+                                        type="button"
+                                        className="p-0 text-primary btn btn-group-vertical"
+                                        aria-label="Создать канал"
+                                        onClick={() => dispatch(addChannel('newName'))}
+                                    >
+                                        +
                                     </button>
                                 </div>
 
