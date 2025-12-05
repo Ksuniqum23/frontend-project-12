@@ -1,26 +1,27 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {fetchInitialData, setActiveChannel} from "../../store/chatSlice.js";
+// import {fetchInitialData, setActiveChannel} from "../../store/chatSlice.js";
 import {tokenService} from "../services/tokenService.js";
 import {logout} from "../../store/authSlice.js";
 import {useNavigate} from "react-router-dom";
 import {logoutUser} from "../api/auth.js";
+import {fetchChannels, setActiveChannel} from "../../store/channelsSlice.js";
 
 export default function ChatPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(fetchInitialData());
+        dispatch(fetchChannels());
     }, [dispatch]);
 
-    const channels = useSelector(state => state.chat.channels);
-    const messages = useSelector(state => state.chat.messages);
-    const activeChannelId = useSelector(state => state.chat.activeChannelId);
-    const loading = useSelector(state => state.chat.loading);
+    const channels = useSelector(state => state.channels.entities);
+    const channelIds = useSelector(state => state.channels.ids);
+    // const messages = useSelector(state => state.chat.messages);
+    const activeChannelId = useSelector(state => state.channels.activeChannelId);
+    const activeChannel = useSelector(state => state.channels.entities[activeChannelId]);
 
-    const activeChannel = channels.find(ch => ch.id === activeChannelId);
-
+    const loading = false;
     const handleLogout = () => {
         logoutUser();
         dispatch(logout());
@@ -54,15 +55,15 @@ export default function ChatPage() {
                                     {loading ? (
                                         <li className="nav-item w-100">Загрузка...</li>
                                     ) : (
-                                        channels.map((ch) => (
-                                            <li className="nav-item w-100" key={ch.id}>
+                                        channelIds.map((currentId) => (
+                                            <li className="nav-item w-100" key={currentId}>
                                                 <button
                                                     type="button"
-                                                    className={`w-100 rounded-0 text-start btn ${ch.id === activeChannelId ? 'btn-secondary' : ''}`}
-                                                    onClick={() => dispatch(setActiveChannel(ch.id))}
+                                                    className={`w-100 rounded-0 text-start btn ${currentId === activeChannelId ? 'btn-secondary' : ''}`}
+                                                    onClick={() => dispatch(setActiveChannel(currentId))}
                                                 >
                                                     <span className="me-1">#</span>
-                                                    {ch.name}
+                                                    {channels[currentId].name}
                                                 </button>
                                             </li>
                                         ))
@@ -76,7 +77,7 @@ export default function ChatPage() {
 
                                     <div className="bg-light mb-4 p-3 shadow-sm small">
                                         <p className="m-0"><b>{activeChannel ? `# ${activeChannel.name}` : '# —'}</b></p>
-                                        <span className="text-muted">{messages.filter((m) => m.channelId === activeChannelId).length} сообщений</span>
+                                        {/*<span className="text-muted">{messages.filter((m) => m.channelId === activeChannelId).length} сообщений</span>*/}
                                     </div>
 
                                     <div id="messages-box" className="chat-messages overflow-auto px-5"
