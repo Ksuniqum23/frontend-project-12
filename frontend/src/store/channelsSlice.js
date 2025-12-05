@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {addChannelApi, fetchChannelsApi} from "../components/api/channels.js";
+import {data} from "react-router-dom";
 
 export const fetchChannels = createAsyncThunk(
     'channels/fetchChannels',
@@ -14,9 +15,9 @@ export const fetchChannels = createAsyncThunk(
 
 export const addChannel = createAsyncThunk(
     'channels/addChannel',
-    async (_, { rejectWithValue}) => {
+    async (name, { rejectWithValue}) => {
         try {
-            return await addChannelApi('qweqwe');
+            return await addChannelApi(name);
         } catch (err) {
             return rejectWithValue(err.message);
         }

@@ -1,13 +1,15 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 // import {fetchInitialData, setActiveChannel} from "../../store/chatSlice.js";
-import {tokenService} from "../services/tokenService.js";
+// import {tokenService} from "../services/tokenService.js";
 import {logout} from "../../store/authSlice.js";
 import {useNavigate} from "react-router-dom";
 import {logoutUser} from "../api/auth.js";
 import {addChannel, fetchChannels, setActiveChannel} from "../../store/channelsSlice.js";
+import AddChannelModal from "../AddChannelModal.jsx";
 
 export default function ChatPage() {
+    const [isAddChannelModalOpen, setIsAddChannelModalOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -27,6 +29,10 @@ export default function ChatPage() {
         dispatch(logout());
         navigate("/login");
     };
+
+    const handleAddChannel = (name) => {
+        dispatch(addChannel(name));
+    }
 
     return (
         <div className="h-100">
@@ -51,10 +57,15 @@ export default function ChatPage() {
                                         type="button"
                                         className="p-0 text-primary btn btn-group-vertical"
                                         aria-label="Создать канал"
-                                        onClick={() => dispatch(addChannel('newName'))}
+                                        onClick={() => setIsAddChannelModalOpen(true)}
                                     >
                                         +
                                     </button>
+                                    <AddChannelModal
+                                        isOpen={isAddChannelModalOpen}
+                                        onClose={() => setIsAddChannelModalOpen(false)}
+                                        onSubmit={handleAddChannel}
+                                    />
                                 </div>
 
                                 <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">

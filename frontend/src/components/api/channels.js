@@ -6,8 +6,8 @@ export const fetchChannelsApi = async () => {
     return response.data;
 }
 
-export const addChannelApi = async (data) => {
-    const response = await api.post('channels', {name: data});
+export const addChannelApi = async (name) => {
+    const response = await api.post('channels', {name: name});
     console.log('channelsResponse_POST_add', response);
     return response.data;
 }
