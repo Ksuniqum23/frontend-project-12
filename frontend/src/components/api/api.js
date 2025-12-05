@@ -20,11 +20,9 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        const { response, config } = error;
-        // Не перенаправляем на /login если запрос уже идёт на /login (неверные данные авторизации)
-        const isLoginRequest = config?.url?.includes('/login');
-        if (response && response.status === 401 && !isLoginRequest) {
-            // при 401 — удаляем токен и направляем на логин (кроме самого логина)
+        const { response } = error;
+        if (response && response.status === 401) {
+            // при 401 — удаляем токен и можно направить на логин
             tokenService.remove();
             // window.location.href = '/login';
         }

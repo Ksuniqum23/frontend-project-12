@@ -1,11 +1,17 @@
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 // import {fetchInitialData, setActiveChannel} from "../../store/chatSlice.js";
 // import {tokenService} from "../services/tokenService.js";
-import {logout} from "../../store/authSlice.js";
-import {useNavigate} from "react-router-dom";
-import {logoutUser} from "../api/auth.js";
-import {addChannel, fetchChannels, setActiveChannel} from "../../store/channelsSlice.js";
+import { logout } from "../../store/authSlice.js";
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../api/auth.js";
+import {
+    addChannel,
+    deleteChannel,
+    fetchChannels,
+    selectAllChannels,
+    setActiveChannel
+} from "../../store/channelsSlice.js";
 import AddChannelModal from "../AddChannelModal.jsx";
 
 export default function ChatPage() {
@@ -17,13 +23,13 @@ export default function ChatPage() {
         dispatch(fetchChannels());
     }, [dispatch]);
 
-    const channels = useSelector(state => state.channels.entities);
-    const channelIds = useSelector(state => state.channels.ids);
-    // const messages = useSelector(state => state.chat.messages);
+    const channels = useSelector(selectAllChannels);
     const activeChannelId = useSelector(state => state.channels.activeChannelId);
-    const activeChannel = useSelector(state => state.channels.entities[activeChannelId]);
+    const activeChannel = channels.find((channel) => channel.id === activeChannelId);
 
     const loading = false;
+    const error = false;
+
     const handleLogout = () => {
         logoutUser();
         dispatch(logout());
@@ -69,32 +75,52 @@ export default function ChatPage() {
                                 </div>
 
                                 <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-                                    {loading ? (
-                                        <li className="nav-item w-100">Загрузка...</li>
-                                    ) : (
-                                        channelIds.map((currentId) => (
-                                            <li className="nav-item w-100" key={currentId}>
-                                                <button
-                                                    type="button"
-                                                    className={`w-100 rounded-0 text-start btn ${currentId === activeChannelId ? 'btn-secondary' : ''}`}
-                                                    onClick={() => dispatch(setActiveChannel(currentId))}
-                                                >
+                                    {channels.map((channel) => (
+                                        <li className="nav-item w-100 d-flex align-items-center" key={channel.id}>
+                                            <button
+                                                type="button"
+                                                className={`flex-grow-1 rounded-0 text-start btn ${channel.id === activeChannelId ? 'btn-secondary' : 'btn-light'
+                                                    }`}
+                                                onClick={() => dispatch(setActiveChannel(channel.id))}
+                                            >
                                                 <span className="me-1">#</span>
-                                                {channels[currentId].name}
-                                                </button>
-                                                if (channels[currentId].removable === true) {
+                                                {channel.name}
+                                            </button>
+
+                                            {channel.removable && (
+                                                <div className="dropdown ms-1">
                                                     <button
+                                                        className="btn btn-outline-secondary btn-sm dropdown-toggle"
                                                         type="button"
-                                                        className="p-0 text-primary btn btn-group-vertical"
-                                                        aria-label="Удалить канал"
-                                                        onClick={() => setIsAddChannelModalOpen(true)}
+                                                        id={`dropdown-${channel.id}`}
+                                                        data-bs-toggle="dropdown"
+                                                        aria-expanded="false"
                                                     >
-                                                        -
                                                     </button>
-                                                }
-                                            </li>
-                                        ))
-                                    )}
+
+                                                    <ul className="dropdown-menu" aria-labelledby={`dropdown-${channel.id}`}>
+                                                        <li>
+                                                            <button
+                                                                className="dropdown-item"
+                                                                onClick={() => console.log('rename', channel.id)}
+                                                            >
+                                                                Переименовать
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button
+                                                                className="dropdown-item text-danger"
+                                                                onClick={() => dispatch(deleteChannel(channel.id))}
+                                                            >
+                                                                Удалить
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            )}
+                                        </li>
+                                    ))
+                                    }
                                 </ul>
                             </div>
 
@@ -108,24 +134,24 @@ export default function ChatPage() {
                                     </div>
 
                                     <div id="messages-box" className="chat-messages overflow-auto px-5"
-                                         // ref={messagesBoxRef}
-                                         style={{ minHeight: 200 }}>
+                                        // ref={messagesBoxRef}
+                                        style={{ minHeight: 200 }}>
                                         {loading ? (
                                             <div>Загрузка сообщений...</div>
-                                        // ) : error ? (
-                                        //     <div className="text-danger">{'какая-то ошибка'}</div>
-                                         )
+                                        ) : error ? (
+                                            <div className="text-danger">{'какая-то ошибка'}</div>
+                                        )
                                             : (
-                                            // messages
-                                            //     .filter((m) => m.channelId === activeChannelId)
-                                            //     .map((m) => (
-                                            //         <div className="my-2" key={m.id}>
-                                            //             <div className="fw-bold small">{m.username} <small className="text-muted">{formatDate(m.createdAt)}</small></div>
-                                            //             <div>{m.body}</div>
-                                            //         </div>
-                                            //     )
-                                            <p>Тут окно сообщений</p>
-                                        )}
+                                                // messages
+                                                //     .filter((m) => m.channelId === activeChannelId)
+                                                //     .map((m) => (
+                                                //         <div className="my-2" key={m.id}>
+                                                //             <div className="fw-bold small">{m.username} <small className="text-muted">{formatDate(m.createdAt)}</small></div>
+                                                //             <div>{m.body}</div>
+                                                //         </div>
+                                                //     )
+                                                <p>Тут окно сообщений</p>
+                                            )}
                                     </div>
 
                                     <div className="mt-auto px-5 py-3">
@@ -139,13 +165,13 @@ export default function ChatPage() {
                                                     aria-label="Новое сообщение"
                                                     placeholder={activeChannel ? 'Введите сообщение...' : 'Выберите канал'}
                                                     className="border-0 p-0 ps-2 form-control"
-                                                    // value={body}
-                                                    // onChange={(e) => setBody(e.target.value)}
-                                                    // disabled={!activeChannel || sending}
+                                                // value={body}
+                                                // onChange={(e) => setBody(e.target.value)}
+                                                // disabled={!activeChannel || sending}
                                                 />
                                                 <button type="submit"
-                                                        // disabled={!body.trim() || sending || !activeChannel}
-                                                        className="btn btn-group-vertical">
+                                                    // disabled={!body.trim() || sending || !activeChannel}
+                                                    className="btn btn-group-vertical">
                                                     Отправить
                                                 </button>
                                             </div>

@@ -1,5 +1,5 @@
-import {createAsyncThunk, createEntityAdapter, createSlice} from "@reduxjs/toolkit";
-import {addChannelApi, deleteChannelApi, fetchChannelsApi} from "../components/api/channels.js";
+import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { addChannelApi, deleteChannelApi, fetchChannelsApi } from "../components/api/channels.js";
 
 const channelsAdapter = createEntityAdapter();
 
@@ -16,7 +16,7 @@ export const fetchChannels = createAsyncThunk(
 
 export const addChannel = createAsyncThunk(
     'channels/addChannel',
-    async (name, { rejectWithValue}) => {
+    async (name, { rejectWithValue }) => {
         try {
             return await addChannelApi(name);
         } catch (err) {
@@ -91,7 +91,7 @@ const channelSlice = createSlice({
                 state.error = null;
             })
             .addCase(deleteChannel.fulfilled, (state, action) => {
-                channelsAdapter.removeOne(state, action.payload);
+                channelsAdapter.removeOne(state, action.payload.id);
                 state.status = 'success';
             })
             .addCase(deleteChannel.rejected, (state, action) => {
