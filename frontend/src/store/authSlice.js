@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {tokenService} from "../components/services/tokenService.js";
+import {tokenService} from "../services/tokenService.js";
 
 const initialState = {
     isAuthenticated: Boolean(tokenService.get()),

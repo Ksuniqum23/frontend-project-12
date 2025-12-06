@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import {tokenService} from "./services/tokenService.js";
+import {tokenService} from "../services/tokenService.js";
 
 const PrivateRoute = ({ children }) => {
     const location = useLocation();

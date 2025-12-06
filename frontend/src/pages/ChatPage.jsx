@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 // import {fetchInitialData, setActiveChannel} from "../../store/chatSlice.js";
 // import {tokenService} from "../services/tokenService.js";
-import { logout } from "../../store/authSlice.js";
+import { logout } from "../store/authSlice.js";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../api/auth.js";
 import {
@@ -11,9 +11,9 @@ import {
     fetchChannels,
     selectAllChannels,
     setActiveChannel
-} from "../../store/channelsSlice.js";
-import AddChannelModal from "../AddChannelModal.jsx";
-import EditChannelModal from "../EditChannelModal.jsx";
+} from "../store/channelsSlice.js";
+import AddChannelModal from "../components/AddChannelModal.jsx";
+import EditChannelModal from "../components/EditChannelModal.jsx";
 
 
 export default function ChatPage() {
@@ -61,7 +61,7 @@ export default function ChatPage() {
 
                     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
                         <div className="container">
-                            <a className="navbar-brand" href="/">Hexlet Chat</a>
+                            <a className="navbar-brand" href="/frontend/public">Hexlet Chat</a>
                             <button type="button" className="btn btn-primary" onClick={handleLogout}>Выйти</button>
                         </div>
                     </nav>

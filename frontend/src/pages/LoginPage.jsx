@@ -3,7 +3,7 @@ import React from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useFormik } from "formik";
 import { loginUser } from "../api/auth.js";
-import { loginFailure, loginStart, loginSuccess } from "../../store/authSlice.js";
+import { loginFailure, loginStart, loginSuccess } from "../store/authSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 
 function LoginPage() {

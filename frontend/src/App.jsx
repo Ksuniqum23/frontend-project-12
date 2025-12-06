@@ -1,9 +1,9 @@
 import {Route, Routes} from "react-router-dom";
-import NotFoundPage from "./components/pages/NotFoundPage.jsx";
-import LoginPage from "./components/pages/LoginPage.jsx";
-import ChatPage from "./components/pages/ChatPage.jsx";
-import PrivateRoute from "./components/PrivatRoute.jsx";
-import SignupPage from "./components/pages/SignupPage.jsx";
+import NotFoundPage from "./pages/NotFoundPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import ChatPage from "./pages/ChatPage.jsx";
+import PrivateRoute from "./routes/PrivateRoute.jsx";
+import SignupPage from "./pages/SignupPage.jsx";
 
 function App() {
     return (

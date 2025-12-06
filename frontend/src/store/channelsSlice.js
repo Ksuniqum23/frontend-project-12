@@ -1,5 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { addChannelApi, deleteChannelApi, editChannelApi, fetchChannelsApi } from "../components/api/channels.js";
+import { addChannelApi, deleteChannelApi, editChannelApi, fetchChannelsApi } from "../api/channels.js";
 
 const channelsAdapter = createEntityAdapter();
 
