@@ -19,6 +19,7 @@ import EditChannelModal from "../EditChannelModal.jsx";
 export default function ChatPage() {
     const [isAddChannelModalOpen, setIsAddChannelModalOpen] = useState(false);
     const [isEditChannelModalOpen, setIsEditChannelModalOpen] = useState(false);
+    const [channelToEdit, setChannelToEdit] = useState(null);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -45,12 +46,12 @@ export default function ChatPage() {
     }
 
     const handleOpenEditModal = (channel) => {
+        setChannelToEdit(channel);
         setIsEditChannelModalOpen(true);
-        EditChannelModal(channel);
     }
 
     const handleEditChannel = (channelId, newName) => {
-        dispatch(editChannel(channelId, newName));
+        dispatch(editChannel({ channelId, newName }));
     }
 
     return (
@@ -85,6 +86,12 @@ export default function ChatPage() {
                                         onClose={() => setIsAddChannelModalOpen(false)}
                                         onSubmit={handleAddChannel}
                                     />
+                                    <EditChannelModal
+                                        isOpen={isEditChannelModalOpen}
+                                        onClose={() => setIsEditChannelModalOpen(false)}
+                                        onSubmit={handleEditChannel}
+                                        channel={channelToEdit}
+                                    />
                                 </div>
 
                                 <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
@@ -115,16 +122,10 @@ export default function ChatPage() {
                                                         <li>
                                                             <button
                                                                 className="dropdown-item"
-                                                                onClick={handleOpenEditModal}
+                                                                onClick={() => handleOpenEditModal(channel)}
                                                             >
                                                                 Переименовать
                                                             </button>
-                                                            <EditChannelModal
-                                                                isOpen={isEditChannelModalOpen}
-                                                                onClose={() => setIsEditChannelModalOpen(false)}
-                                                                onSubmit={handleEditChannel}
-                                                                channel={channel}
-                                                            />
                                                         </li>
                                                         <li>
                                                             <button

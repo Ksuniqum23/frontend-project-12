@@ -1,6 +1,6 @@
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function EditChannelModal({isOpen, onClose, onSubmit, channel}) {
+export default function EditChannelModal({ isOpen, onClose, onSubmit, channel }) {
     const [channelName, setChannelName] = useState('');
     const inputRef = useRef(null);
 
@@ -18,7 +18,7 @@ export default function EditChannelModal({isOpen, onClose, onSubmit, channel}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (channelName.trim()) {
+        if (channelName.trim() && channel) {
             onSubmit(channel.id, channelName);
             setChannelName('');
             onClose();
