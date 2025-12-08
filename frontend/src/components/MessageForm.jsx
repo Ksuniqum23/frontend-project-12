@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 export default function MessageForm() {
     const [message, setMessage] = useState('');
-    const activeChannelId = useSelector((state) => state.channels.activeChannel);
+    const activeChannelId = useSelector((state) => state.channels.activeChannelId);
     const user = useSelector((state) => state.auth.user);
 
     const dispatch = useDispatch();
