@@ -2,15 +2,15 @@
 import React from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useFormik } from "formik";
-import { loginUser } from "../api/auth.js";
-import { loginFailure, loginStart, loginSuccess } from "../store/authSlice.js";
 import { useDispatch, useSelector } from "react-redux";
+import {loginUser} from "../store/authSlice.js";
 
 function LoginPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const { loading } = useSelector(state => state.auth);
+
+    const { loading, error: authError } = useSelector((state) => state.auth);
 
     const from = location.state?.from?.pathname || "/";
 
@@ -30,20 +30,18 @@ function LoginPage() {
 
         onSubmit: async (values, { setSubmitting, setStatus }) => {
             setStatus({ error: null });
-            dispatch(loginStart());
             try {
-                const data = await loginUser(values.username, values.password);
-                dispatch(loginSuccess({ token: data.token, user: data.username }));
+                await dispatch(loginUser({username: values.username, password: values.password}));
                 navigate(from, { replace: true });
-            } catch (error) {
-                let message = 'Ошибка авторизации';
-                dispatch(loginFailure(error.message));
+            } catch (err) {
+                const message = err?.message || err || 'Ошибка авторизации';
                 setStatus({ error: message });
             } finally {
                 setSubmitting(false); // завершение процесса загрузки в Formik
             }
         },
     });
+    const serverError = formik.status?.error || authError;
 
     return (
         <div className="h-100">
@@ -103,13 +101,16 @@ function LoginPage() {
                                             <label className="form-label" htmlFor="password">Пароль</label>
                                         </div>
 
-                                        <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти
+                                        <button type="submit"
+                                                className="w-100 mb-3 btn btn-outline-primary"
+                                                disabled={formik.isSubmitting || loading}
+                                        >{loading || formik.isSubmitting ? 'Входим...' : 'Войти'}
                                         </button>
 
                                     </form>
                                 </div>
 
-                                {formik.status?.error && (
+                                {serverError && (
                                     <div style={{
                                         marginBottom: 12,
                                         padding: 10,
@@ -118,9 +119,22 @@ function LoginPage() {
                                         borderRadius: 4,
                                         border: '1px solid #f5c2c2'
                                     }}>
-                                        {formik.status.error}
+                                        {serverError}
                                     </div>
                                 )}
+
+                                {/*{formik.status?.error && (*/}
+                                {/*    <div style={{*/}
+                                {/*        marginBottom: 12,*/}
+                                {/*        padding: 10,*/}
+                                {/*        background: '#ffecec',*/}
+                                {/*        color: '#b00020',*/}
+                                {/*        borderRadius: 4,*/}
+                                {/*        border: '1px solid #f5c2c2'*/}
+                                {/*    }}>*/}
+                                {/*        {formik.status.error}*/}
+                                {/*    </div>*/}
+                                {/*)}*/}
 
                                 <div className="card-footer p-4">
                                     <div className="text-center">

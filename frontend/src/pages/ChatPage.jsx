@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 // import {tokenService} from "../services/tokenService.js";
 import { logout } from "../store/authSlice.js";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../api/auth.js";
 import {
     addChannel,
     deleteChannel, editChannel,
@@ -49,7 +48,6 @@ export default function ChatPage() {
     // const error = false;
 
     const handleLogout = () => {
-        logoutUser();
         dispatch(logout());
         navigate("/login");
     };
@@ -170,9 +168,7 @@ export default function ChatPage() {
                             {/* Сообщения */}
                             <div className="col p-0 h-100">
                                 <div className="d-flex flex-column h-100">
-                                    <ChatHeader
-                                        activeChannel={activeChannel}
-                                        messageCount={321} />
+                                    <ChatHeader />
                                     <MessagesList />
                                     <MessageForm />
                                 </div>
