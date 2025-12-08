@@ -49,9 +49,25 @@ const messageSlice = createSlice({
                 state.error = action.payload || 'Ошибка при загрузке данных';
                 state.status = 'failed';
             })
+            //addMessages
+            .addCase(addMessage.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(addMessage.fulfilled, (state, action) => {
+                messagesAdapter.addOne(state, action.payload);
+                state.status = 'success';
+                state.error = null;
+            })
+            .addCase(addMessage.rejected, (state, action) => {
+                state.error = action.payload || 'Ошибка при загрузке данных';
+                state.status = 'failed';
+            })
     }
 });
 
 export const {
     selectAll: selectAllMessages,
 } = messagesAdapter.getSelectors((state) => state.messages);
+
+export default messageSlice.reducer;

@@ -177,9 +177,7 @@ export default function ChatPage() {
                                         messages={filtredMessages}
                                         loading={false}
                                         error={null} />
-                                    <MessageForm
-                                        handleSendMessage={handleSendMessage}
-                                        activeChannel={activeChannel} />
+                                    <MessageForm />
                                 </div>
                             </div>
 
