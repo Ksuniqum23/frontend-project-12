@@ -65,16 +65,6 @@ export default function ChatPage() {
         dispatch(editChannel({ channelId, newName }));
     }
 
-    const handleSendMessage = (text) => {
-        const newMessage = {
-            body: 'пока дефолтный текст',
-            channelId: 1,
-            username: 'дефолтный Юзер',
-        }
-        dispatch(addMessage(newMessage));
-        console.log('Шлем это сообщение: ', text, newMessage);
-    }
-
     return (
         <div className="h-100">
             <div className="h-100" id="chat">

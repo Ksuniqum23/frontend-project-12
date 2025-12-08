@@ -90,23 +90,23 @@ const SignupPage = () => {
                                                 <label className="form-label" htmlFor="password">Пароль</label>
                                             </div>
 
-                                            {/* Поле: confirmPassword */}
+                                            {/* Поле: passwordConfirm */}
                                             <div className="form-floating mb-4">
                                                 <input placeholder="Пароли должны совпадать"
-                                                    name="confirmPassword"
+                                                    name="passwordConfirm"
                                                     required=""
                                                     autoComplete="new-password"
                                                     type="password"
-                                                    id="confirmPassword"
+                                                    id="passwordConfirm"
                                                     className="form-control"
                                                     onChange={formik.handleChange}
-                                                    value={formik.values.confirmPassword}
+                                                    value={formik.values.passwordConfirm}
                                                     onBlur={formik.handleBlur}
                                                 />
                                                 {formik.touched.passwordConfirm && formik.errors.passwordConfirm && (
                                                     <div style={{ color: 'red', fontSize: 13 }}>{formik.errors.passwordConfirm}</div>
                                                 )}
-                                                <label className="form-label" htmlFor="confirmPassword">Подтвердите пароль</label>
+                                                <label className="form-label" htmlFor="passwordConfirm">Подтвердите пароль</label>
                                             </div>
 
                                             <button type="submit" className="w-100 btn btn-outline-primary">Зарегистрироваться</button>
