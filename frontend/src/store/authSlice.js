@@ -1,17 +1,29 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {tokenService} from "../services/tokenService.js";
-import {loginUserApi} from "../api/auth.js";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { tokenService } from "../services/tokenService.js";
+import { loginUserApi, signupUserApi } from "../api/auth.js";
 
 export const loginUser = createAsyncThunk(
-   'auth/login',
-   async ({username, password}, { rejectWithValue}) => {
-       try {
-           return await loginUserApi(username, password);
-       } catch (error) {
-           return rejectWithValue(error.message);
-       }
-   }
+    'auth/login',
+    async ({ username, password }, { rejectWithValue }) => {
+        try {
+            return await loginUserApi(username, password);
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
 )
+
+export const signupUser = createAsyncThunk(
+    'auth/signup',
+    async ({ username, password }, { rejectWithValue }) => {
+        try {
+            return await signupUserApi(username, password);
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+)
+
 const initialState = {
     isAuthenticated: Boolean(tokenService.get()),
     token: tokenService.get() || null,
@@ -34,6 +46,7 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // loginUser
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -51,6 +64,26 @@ const authSlice = createSlice({
                 state.user = null;
                 state.loading = false;
                 state.error = action.payload || "Ошибка авторизации";
+                tokenService.remove();
+            })
+            //signupUser
+            .addCase(signupUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(signupUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.isAuthenticated = true;
+                state.token = action.payload.token;
+                state.user = action.payload.username;
+                tokenService.set(action.payload.token);
+            })
+            .addCase(signupUser.rejected, (state, action) => {
+                state.isAuthenticated = false;
+                state.token = null;
+                state.user = null;
+                state.loading = false;
+                state.error = action.payload || "Ошибка регистрации";
                 tokenService.remove();
             })
     }

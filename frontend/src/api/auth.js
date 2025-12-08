@@ -1,10 +1,17 @@
 // import axios from "axios";
 // import {tokenService} from "../services/tokenService.js";
 import api from "./api.js";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const loginUserApi = async (username, password) => {
-    const response = await api.post('/login', { username, password });
+    const response = await api.post('login', { username, password });
     console.log('userLoginResponsePost', response);
+    return response.data;
+}
+
+export const signupUserApi = async (username, password) => {
+    const response = await api.post('signup', { username, password });
+    console.log('userSignupResponsePost', response);
     return response.data;
 }
 

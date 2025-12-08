@@ -1,7 +1,14 @@
 import { useFormik } from "formik";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { signupUser } from "../store/authSlice.js";
 
 const SignupPage = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { loading } = useSelector(state => state.auth);
+
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -28,8 +35,18 @@ const SignupPage = () => {
             return errors;
         },
 
-        onSubmit: async (values) => {
-            console.log('Отправлено', values);
+        onSubmit: async (values, { setSubmitting, setStatus }) => {
+            setStatus({ error: null });
+            try {
+                await dispatch(signupUser({ username: values.username, password: values.password }));
+                navigate('/');
+
+            } catch (err) {
+                const message = err?.message || err || 'Ошибка регистрации';
+                setStatus({ error: message });
+            } finally {
+                setSubmitting(false);
+            }
         }
     });
 

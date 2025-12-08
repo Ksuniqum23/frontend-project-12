@@ -16,12 +16,12 @@ import EditChannelModal from "../components/Modals/EditChannelModal.jsx";
 import ChatHeader from "../components/ChatHeader.jsx";
 import MessagesList from "../components/MessagesList.jsx";
 import MessageForm from "../components/MessageForm.jsx";
-import {addMessage, fetchMessages} from "../store/messagesSlice.js";
+import { fetchMessages } from "../store/messagesSlice.js";
 // import {selectAllMessages} from "../store/messagesSlice.js";
 
 
 export default function ChatPage() {
-    const filtredMessages = [{ id: '1', body: 'text message', channelId: '1', username: 'admin' }, { id: '2', body: 'second message', channelId: '1', username: 'ksu' }];
+
     const [isAddChannelModalOpen, setIsAddChannelModalOpen] = useState(false);
     const [isEditChannelModalOpen, setIsEditChannelModalOpen] = useState(false);
     const [channelToEdit, setChannelToEdit] = useState(null);
@@ -38,14 +38,9 @@ export default function ChatPage() {
     }, [dispatch]);
 
     const channels = useSelector(selectAllChannels);
-    // const messages = useSelector(selectAllMessages);
+
     const activeChannelId = useSelector(state => state.channels.activeChannelId);
-    // const activeChannel = useSelector(state => state.channels.entities[activeChannelId]);
-    // const activeUser =  useSelector(state => state.auth.user);
-    const activeChannel = channels.find((channel) => channel.id === activeChannelId);
-    //
-    // const loading = false;
-    // const error = false;
+
 
     const handleLogout = () => {
         dispatch(logout());
