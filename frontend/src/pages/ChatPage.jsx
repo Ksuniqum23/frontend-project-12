@@ -173,10 +173,7 @@ export default function ChatPage() {
                                     <ChatHeader
                                         activeChannel={activeChannel}
                                         messageCount={321} />
-                                    <MessagesList
-                                        messages={filtredMessages}
-                                        loading={false}
-                                        error={null} />
+                                    <MessagesList />
                                     <MessageForm />
                                 </div>
                             </div>

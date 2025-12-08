@@ -1,11 +1,11 @@
-import {createAsyncThunk, createEntityAdapter, createSlice} from "@reduxjs/toolkit";
-import {addMessageApi, fetchMessagesApi} from "../api/messages.js";
+import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { addMessageApi, fetchMessagesApi } from "../api/messages.js";
 
 const messagesAdapter = createEntityAdapter();
 
 export const fetchMessages = createAsyncThunk(
     'messages/fetchMessages',
-    async (_, { rejectWithValue}) => {
+    async (_, { rejectWithValue }) => {
         try {
             return await fetchMessagesApi()
         } catch (error) {
@@ -25,10 +25,10 @@ export const addMessage = createAsyncThunk(
     }
 )
 
-const initialState = {
+const initialState = messagesAdapter.getInitialState({
     status: 'idle',
     error: null,
-}
+});
 
 const messageSlice = createSlice({
     name: 'messages',
@@ -69,5 +69,8 @@ const messageSlice = createSlice({
 export const {
     selectAll: selectAllMessages,
 } = messagesAdapter.getSelectors((state) => state.messages);
+
+export const selectMessagesByChannel = (activeIdChannel) => (state) =>
+    selectAllMessages(state).filter((m) => m.channelId === activeIdChannel);
 
 export default messageSlice.reducer;
