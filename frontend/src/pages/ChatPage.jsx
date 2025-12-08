@@ -16,11 +16,12 @@ import AddChannelModal from "../components/Modals/AddChannelModal.jsx";
 import EditChannelModal from "../components/Modals/EditChannelModal.jsx";
 import ChatHeader from "../components/ChatHeader.jsx";
 import MessagesList from "../components/MessagesList.jsx";
+import MessageForm from "../components/MessageForm.jsx";
 // import {selectAllMessages} from "../store/messagesSlice.js";
 
 
 export default function ChatPage() {
-    const filtredMessages = [{ id: '1', body: 'text message', channelId: '1', username: 'admin' }];
+    const filtredMessages = [{ id: '1', body: 'text message', channelId: '1', username: 'admin' }, { id: '2', body: 'second message', channelId: '1', username: 'ksu' }];
     const [isAddChannelModalOpen, setIsAddChannelModalOpen] = useState(false);
     const [isEditChannelModalOpen, setIsEditChannelModalOpen] = useState(false);
     const [channelToEdit, setChannelToEdit] = useState(null);
@@ -59,6 +60,10 @@ export default function ChatPage() {
 
     const handleEditChannel = (channelId, newName) => {
         dispatch(editChannel({ channelId, newName }));
+    }
+
+    const handleSendMessage = (text) => {
+        console.log('Шлем это сообщение: ', text);
     }
 
     return (
@@ -161,6 +166,9 @@ export default function ChatPage() {
                                         messages={filtredMessages}
                                         loading={false}
                                         error={null} />
+                                    <MessageForm
+                                        handleSendMessage={handleSendMessage}
+                                        activeChannel={activeChannel} />
                                 </div>
                             </div>
 
