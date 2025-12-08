@@ -1,5 +1,5 @@
 import {createAsyncThunk, createEntityAdapter, createSlice} from "@reduxjs/toolkit";
-import {fetchMessagesApi} from "../api/messages.js";
+import {addMessageApi, fetchMessagesApi} from "../api/messages.js";
 
 const messagesAdapter = createEntityAdapter();
 
@@ -8,6 +8,17 @@ export const fetchMessages = createAsyncThunk(
     async (_, { rejectWithValue}) => {
         try {
             return await fetchMessagesApi()
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+)
+
+export const addMessage = createAsyncThunk(
+    'messages/addMessage',
+    async (newMessage, { rejectWithValue }) => {
+        try {
+            return await addMessageApi(newMessage);
         } catch (error) {
             return rejectWithValue(error.message);
         }

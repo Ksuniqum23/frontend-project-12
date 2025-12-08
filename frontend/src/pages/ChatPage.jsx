@@ -17,6 +17,7 @@ import EditChannelModal from "../components/Modals/EditChannelModal.jsx";
 import ChatHeader from "../components/ChatHeader.jsx";
 import MessagesList from "../components/MessagesList.jsx";
 import MessageForm from "../components/MessageForm.jsx";
+import {addMessage, fetchMessages} from "../store/messagesSlice.js";
 // import {selectAllMessages} from "../store/messagesSlice.js";
 
 
@@ -31,6 +32,10 @@ export default function ChatPage() {
 
     useEffect(() => {
         dispatch(fetchChannels());
+    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(fetchMessages());
     }, [dispatch]);
 
     const channels = useSelector(selectAllChannels);
@@ -63,7 +68,13 @@ export default function ChatPage() {
     }
 
     const handleSendMessage = (text) => {
-        console.log('Шлем это сообщение: ', text);
+        const newMessage = {
+            body: 'пока дефолтный текст',
+            channelId: 1,
+            username: 'дефолтный Юзер',
+        }
+        dispatch(addMessage(newMessage));
+        console.log('Шлем это сообщение: ', text, newMessage);
     }
 
     return (
