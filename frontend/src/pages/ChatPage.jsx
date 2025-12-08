@@ -15,10 +15,12 @@ import {
 import AddChannelModal from "../components/Modals/AddChannelModal.jsx";
 import EditChannelModal from "../components/Modals/EditChannelModal.jsx";
 import ChatHeader from "../components/ChatHeader.jsx";
+import MessagesList from "../components/MessagesList.jsx";
 // import {selectAllMessages} from "../store/messagesSlice.js";
 
 
 export default function ChatPage() {
+    const filtredMessages = [{ id: '1', body: 'text message', channelId: '1', username: 'admin' }];
     const [isAddChannelModalOpen, setIsAddChannelModalOpen] = useState(false);
     const [isEditChannelModalOpen, setIsEditChannelModalOpen] = useState(false);
     const [channelToEdit, setChannelToEdit] = useState(null);
@@ -155,6 +157,10 @@ export default function ChatPage() {
                                     <ChatHeader
                                         activeChannel={activeChannel}
                                         messageCount={321} />
+                                    <MessagesList
+                                        messages={filtredMessages}
+                                        loading={false}
+                                        error={null} />
                                 </div>
                             </div>
 
