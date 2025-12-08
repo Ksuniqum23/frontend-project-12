@@ -12,8 +12,10 @@ import {
     selectAllChannels,
     setActiveChannel
 } from "../store/channelsSlice.js";
-import AddChannelModal from "../components/AddChannelModal.jsx";
-import EditChannelModal from "../components/EditChannelModal.jsx";
+import AddChannelModal from "../components/Modals/AddChannelModal.jsx";
+import EditChannelModal from "../components/Modals/EditChannelModal.jsx";
+import ChatHeader from "../components/ChatHeader.jsx";
+// import {selectAllMessages} from "../store/messagesSlice.js";
 
 
 export default function ChatPage() {
@@ -29,11 +31,14 @@ export default function ChatPage() {
     }, [dispatch]);
 
     const channels = useSelector(selectAllChannels);
+    // const messages = useSelector(selectAllMessages);
     const activeChannelId = useSelector(state => state.channels.activeChannelId);
+    // const activeChannel = useSelector(state => state.channels.entities[activeChannelId]);
+    // const activeUser =  useSelector(state => state.auth.user);
     const activeChannel = channels.find((channel) => channel.id === activeChannelId);
-
-    const loading = false;
-    const error = false;
+    //
+    // const loading = false;
+    // const error = false;
 
     const handleLogout = () => {
         logoutUser();
@@ -147,59 +152,68 @@ export default function ChatPage() {
                             {/* Сообщения */}
                             <div className="col p-0 h-100">
                                 <div className="d-flex flex-column h-100">
-
-                                    <div className="bg-light mb-4 p-3 shadow-sm small">
-                                        <p className="m-0"><b>{activeChannel ? `# ${activeChannel.name}` : '# —'}</b></p>
-                                        {/*<span className="text-muted">{messages.filter((m) => m.channelId === activeChannelId).length} сообщений</span>*/}
-                                    </div>
-
-                                    <div id="messages-box" className="chat-messages overflow-auto px-5"
-                                        // ref={messagesBoxRef}
-                                        style={{ minHeight: 200 }}>
-                                        {loading ? (
-                                            <div>Загрузка сообщений...</div>
-                                        ) : error ? (
-                                            <div className="text-danger">{'какая-то ошибка'}</div>
-                                        )
-                                            : (
-                                                // messages
-                                                //     .filter((m) => m.channelId === activeChannelId)
-                                                //     .map((m) => (
-                                                //         <div className="my-2" key={m.id}>
-                                                //             <div className="fw-bold small">{m.username} <small className="text-muted">{formatDate(m.createdAt)}</small></div>
-                                                //             <div>{m.body}</div>
-                                                //         </div>
-                                                //     )
-                                                <p>Тут окно сообщений</p>
-                                            )}
-                                    </div>
-
-                                    <div className="mt-auto px-5 py-3">
-                                        <form
-                                            // onSubmit={handleSend}
-                                            className="py-1 border rounded-2"
-                                        >
-                                            <div className="input-group has-validation">
-                                                <input
-                                                    name="body"
-                                                    aria-label="Новое сообщение"
-                                                    placeholder={activeChannel ? 'Введите сообщение...' : 'Выберите канал'}
-                                                    className="border-0 p-0 ps-2 form-control"
-                                                // value={body}
-                                                // onChange={(e) => setBody(e.target.value)}
-                                                // disabled={!activeChannel || sending}
-                                                />
-                                                <button type="submit"
-                                                    // disabled={!body.trim() || sending || !activeChannel}
-                                                    className="btn btn-group-vertical">
-                                                    Отправить
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-
+                                    <ChatHeader
+                                        activeChannel={activeChannel}
+                                        messageCount={321} />
                                 </div>
                             </div>
+
+                            {/*        <div className="bg-light mb-4 p-3 shadow-sm small">*/}
+                            {/*            <p className="m-0"><b>{activeChannel ? `# ${activeChannel.name}` : '# —'}</b></p>*/}
+                            {/*            <span className="text-muted">{messages.filter((m) => m.channelId === activeChannelId).length} сообщений</span>*/}
+                            {/*        </div>*/}
+
+                            {/*        <div*/}
+                            {/*            id="messages-box"*/}
+                            {/*            className="chat-messages overflow-auto px-5"*/}
+                            {/*            // ref={messagesBoxRef}*/}
+                            {/*            style={{ minHeight: 200 }}*/}
+                            {/*        >*/}
+                            {/*            {loading ? (*/}
+                            {/*                <div>Загрузка сообщений...</div>*/}
+                            {/*            ) : error ? (*/}
+                            {/*                <div className="text-danger">какая-то ошибка</div>*/}
+                            {/*            ) : (*/}
+                            {/*                (messages ?? [])*/}
+                            {/*                    .filter((m) => m.channelId === activeChannelId)*/}
+                            {/*                    .map((m) => (*/}
+                            {/*                        <div className="my-2" key={m.id}>*/}
+                            {/*                            <div className="fw-bold small">*/}
+                            {/*                                {m.username}*/}
+                            {/*                                /!* <small className="text-muted">{formatDate(m.createdAt)}</small> *!/*/}
+                            {/*                            </div>*/}
+                            {/*                            <div>{m.body}</div>*/}
+                            {/*                        </div>*/}
+                            {/*                    ))*/}
+                            {/*            )}*/}
+                            {/*        </div>*/}
+
+                            {/*        <div className="mt-auto px-5 py-3">*/}
+                            {/*            <form*/}
+                            {/*                // onSubmit={handleSend}*/}
+                            {/*                className="py-1 border rounded-2"*/}
+                            {/*            >*/}
+                            {/*                <div className="input-group has-validation">*/}
+                            {/*                    <input*/}
+                            {/*                        name="body"*/}
+                            {/*                        aria-label="Новое сообщение"*/}
+                            {/*                        placeholder={activeChannel ? 'Введите сообщение...' : 'Выберите канал'}*/}
+                            {/*                        className="border-0 p-0 ps-2 form-control"*/}
+                            {/*                    // value={body}*/}
+                            {/*                    // onChange={(e) => setBody(e.target.value)}*/}
+                            {/*                    // disabled={!activeChannel || sending}*/}
+                            {/*                    />*/}
+                            {/*                    <button type="submit"*/}
+                            {/*                        // disabled={!body.trim() || sending || !activeChannel}*/}
+                            {/*                        className="btn btn-group-vertical">*/}
+                            {/*                        Отправить*/}
+                            {/*                    </button>*/}
+                            {/*                </div>*/}
+                            {/*            </form>*/}
+                            {/*        </div>*/}
+
+                            {/*    </div>*/}
+                            {/*</div>*/}
 
                         </div>
                     </div>
