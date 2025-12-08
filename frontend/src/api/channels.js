@@ -24,4 +24,3 @@ export const deleteChannelApi = async (channelId) => {
     return response.data;
 }
 
-// export const removeChannelApi(id)

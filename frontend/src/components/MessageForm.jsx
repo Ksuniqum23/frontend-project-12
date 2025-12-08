@@ -24,7 +24,6 @@ export default function MessageForm() {
         event.preventDefault();
         dispatch(addMessage(newMessage));
         setMessage('');
-        console.log('Шлем это сообщение: ', newMessage);
     }
     return (
         <div className="mt-auto px-5 py-3">
