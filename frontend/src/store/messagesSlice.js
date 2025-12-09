@@ -34,6 +34,13 @@ const messageSlice = createSlice({
     name: 'messages',
     initialState,
     reducers: {
+        removeMessagesByChannel(state, action) {
+            const channelId = action.payload;
+            const idsToRemove = Object.values(state.entities)
+                .filter((m) => m && m.channelId === channelId)
+                .map((m) => m.id);
+            messagesAdapter.removeMany(state, idsToRemove);
+        },
         // Socket events
         addMessageFromSocket: (state, action) => {
             messagesAdapter.addOne(state, action.payload);
@@ -79,5 +86,5 @@ export const {
 export const selectMessagesByChannel = (activeIdChannel) => (state) =>
     selectAllMessages(state).filter((m) => m.channelId === activeIdChannel);
 
-export const { addMessageFromSocket } = messageSlice.actions;
+export const { addMessageFromSocket, removeMessagesByChannel } = messageSlice.actions;
 export default messageSlice.reducer;

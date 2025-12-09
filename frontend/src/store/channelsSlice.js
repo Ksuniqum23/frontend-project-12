@@ -1,5 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { addChannelApi, deleteChannelApi, editChannelApi, fetchChannelsApi } from "../api/channels.js";
+import {removeMessagesByChannel} from "./messagesSlice.js";
 
 const channelsAdapter = createEntityAdapter();
 
@@ -38,9 +39,11 @@ export const editChannel = createAsyncThunk(
 
 export const deleteChannel = createAsyncThunk(
     'channels/deleteChannel',
-    async (channelId, { rejectWithValue }) => {
+    async (channelId, { dispatch, rejectWithValue }) => {
         try {
-            return await deleteChannelApi(channelId);
+            const result = await deleteChannelApi(channelId);
+            dispatch(removeMessagesByChannel(channelId));
+            return result;
         } catch (err) {
             return rejectWithValue(err.message);
         }
