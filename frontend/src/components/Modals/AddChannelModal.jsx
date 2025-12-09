@@ -1,7 +1,15 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef } from "react";
+import {useFormik} from "formik";
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object({
+    channelName: Yup.string()
+        .min(3, 'От 3 до 20 символов')
+        .max(20, 'От 3 до 20 символов')
+        .required('Обязательное поле'),
+});
 
 export default function AddChannelModal({isOpen, onClose, onSubmit}) {
-    const [channelName, setChannelName] = useState('');
     const inputRef = useRef(null);
 
     useEffect(() => {
@@ -10,14 +18,18 @@ export default function AddChannelModal({isOpen, onClose, onSubmit}) {
         }
     }, [isOpen]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (channelName.trim()) {
-            onSubmit(channelName);
-            setChannelName('');
+    const formik = useFormik({
+        initialValues: {
+            channelName: '',
+        },
+        validationSchema,
+        onSubmit: (values, { resetForm }) => {
+            onSubmit(values.channelName);
+            resetForm();
             onClose();
         }
-    }
+    })
+
     if (!isOpen) return null;
     return (
         <div
@@ -39,19 +51,22 @@ export default function AddChannelModal({isOpen, onClose, onSubmit}) {
                         />
                     </div>
                     <div className="modal-body">
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={formik.handleSubmit}>
                             <div>
                                 <input
                                     ref={inputRef}
-                                    name="name"
-                                    id="name"
-                                    className="mb-2 form-control"
-                                    value={channelName}
-                                    onChange={(e) => setChannelName(e.target.value)}
+                                    name="channelName"
+                                    id="channelName"
+                                    className={`mb-2 form-control ${formik.touched.channelName && formik.errors.channelName ? 'is-invalid' : ''}`}
+                                    value={formik.values.channelName}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     placeholder="Имя канала"
                                     required
                                 />
-                                <div className="invalid-feedback"></div>
+                                {formik.touched.channelName && formik.errors.channelName && (
+                                    <div className="invalid-feedback">{formik.errors.channelName}</div>
+                                )}
                                 <div className="d-flex justify-content-end">
                                     <button
                                         type="button"

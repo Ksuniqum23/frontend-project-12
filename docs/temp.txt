@@ -28,3 +28,4 @@
         //редакс в ФРОНТЕНД!!!
 
     npm install socket.io-client
+    npm install yup

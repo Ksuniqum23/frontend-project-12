@@ -107,6 +107,7 @@ const channelSlice = createSlice({
                 channelsAdapter.addOne(state, action.payload);
                 state.status = 'success';
                 state.error = null;
+                state.activeChannelId = action.payload.id;
             })
             .addCase(addChannel.rejected, (state, action) => {
                 state.error = action.payload || 'Ошибка при загрузке данных';
@@ -137,6 +138,10 @@ const channelSlice = createSlice({
             .addCase(deleteChannel.fulfilled, (state, action) => {
                 channelsAdapter.removeOne(state, action.payload.id);
                 state.status = 'success';
+                if (state.activeChannelId === action.payload.id) {
+                    const ids = state.ids;
+                    state.activeChannelId = ids.length > 0 ? ids[0] : null;
+                }
             })
             .addCase(deleteChannel.rejected, (state, action) => {
                 state.status = 'failed';
