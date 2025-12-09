@@ -26,3 +26,5 @@
         //для запросов
     npm install @reduxjs/toolkit react-redux
         //редакс в ФРОНТЕНД!!!
+
+    npm install socket.io-client
