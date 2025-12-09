@@ -10,13 +10,16 @@ import {
     setActiveChannel
 } from "../store/channelsSlice.js";
 import {useDispatch, useSelector} from "react-redux";
+import RemoveChannelModal from "./Modals/RemoveChannelModal.jsx";
 
 export default function ChannelsList() {
     const dispatch = useDispatch();
 
     const [isAddChannelModalOpen, setIsAddChannelModalOpen] = useState(false);
     const [isEditChannelModalOpen, setIsEditChannelModalOpen] = useState(false);
+    const [isDeleteChannelModalOpen, setIsDeleteChannelModalOpen] = useState(false);
     const [channelToEdit, setChannelToEdit] = useState(null);
+    const [channelToDelete, setChannelToDelete] = useState(null);
 
     const channels = useSelector(selectAllChannels);
     const activeChannelId = useSelector(state => state.channels.activeChannelId);
@@ -34,8 +37,19 @@ export default function ChannelsList() {
         setIsEditChannelModalOpen(true);
     }
 
+    const handleOpenDeleteModal = (channel) => {
+        setChannelToDelete(channel);
+        setIsDeleteChannelModalOpen(true);
+    }
+
     const handleEditChannel = (channelId, newName) => {
         dispatch(editChannel({ channelId, newName }));
+    }
+
+    const handleDeleteChannel = (channelId) => {
+        dispatch(deleteChannel(channelId));
+        setIsDeleteChannelModalOpen(false);
+        setChannelToDelete(null);
     }
 
     return (
@@ -60,6 +74,14 @@ export default function ChannelsList() {
                     onClose={() => setIsEditChannelModalOpen(false)}
                     onSubmit={handleEditChannel}
                     channel={channelToEdit}
+                />
+                <RemoveChannelModal                           // ADDED: подключаем модалку удаления
+                    isOpen={isDeleteChannelModalOpen}
+                    onClose={() => {
+                        setIsDeleteChannelModalOpen(false);
+                        setChannelToDelete(null);
+                    }}
+                    onSubmit={() => handleDeleteChannel(channelToDelete?.id)}
                 />
             </div>
 
@@ -99,7 +121,7 @@ export default function ChannelsList() {
                                     <li>
                                         <button
                                             className="dropdown-item text-danger"
-                                            onClick={() => dispatch(deleteChannel(channel.id))}
+                                            onClick={() => handleOpenDeleteModal(channel)}
                                         >
                                             Удалить
                                         </button>
