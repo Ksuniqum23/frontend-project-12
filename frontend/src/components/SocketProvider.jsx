@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { connectSocket, disconnectSocket, getSocket } from '../socket/socket';
+import { connectSocket, disconnectSocket } from '../socket/socket';
 import { initSocketListeners, removeSocketListeners } from '../socket/socketListeners';
 
 export default function SocketProvider({ children }) {
