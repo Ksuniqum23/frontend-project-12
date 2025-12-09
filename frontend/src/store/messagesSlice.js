@@ -33,6 +33,12 @@ const initialState = messagesAdapter.getInitialState({
 const messageSlice = createSlice({
     name: 'messages',
     initialState,
+    reducers: {
+        // Socket events
+        addMessageFromSocket: (state, action) => {
+            messagesAdapter.addOne(state, action.payload);
+        },
+    },
     extraReducers: (builder) => {
         builder
             //fetchMessages
@@ -73,4 +79,5 @@ export const {
 export const selectMessagesByChannel = (activeIdChannel) => (state) =>
     selectAllMessages(state).filter((m) => m.channelId === activeIdChannel);
 
+export const { addMessageFromSocket } = messageSlice.actions;
 export default messageSlice.reducer;

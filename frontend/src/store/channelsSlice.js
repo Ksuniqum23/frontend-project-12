@@ -60,6 +60,23 @@ const channelSlice = createSlice({
         setActiveChannel: (state, action) => {
             state.activeChannelId = action.payload;
         },
+        // Socket events
+        addChannelFromSocket: (state, action) => {
+            channelsAdapter.addOne(state, action.payload);
+        },
+        removeChannelFromSocket: (state, action) => {
+            const { id } = action.payload;
+            channelsAdapter.removeOne(state, id);
+            // Если удалён активный канал — переключаемся на первый
+            if (state.activeChannelId === id) {
+                const ids = state.ids;
+                state.activeChannelId = ids.length > 0 ? ids[0] : null;
+            }
+        },
+        renameChannelFromSocket: (state, action) => {
+            const { id, name } = action.payload;
+            channelsAdapter.updateOne(state, { id, changes: { name } });
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -134,5 +151,10 @@ export const {
     selectIds: selectChannelIds
 } = channelsAdapter.getSelectors((state) => state.channels);
 
-export const { setActiveChannel } = channelSlice.actions;
+export const {
+    setActiveChannel,
+    addChannelFromSocket,
+    removeChannelFromSocket,
+    renameChannelFromSocket
+} = channelSlice.actions;
 export default channelSlice.reducer;
