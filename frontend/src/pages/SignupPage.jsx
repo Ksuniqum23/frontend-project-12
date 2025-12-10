@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signupUser } from "../store/authSlice.js";
+import * as Yup from 'yup';
 
 const SignupPage = () => {
     const dispatch = useDispatch();
@@ -14,32 +15,26 @@ const SignupPage = () => {
         inputRef.current?.focus();
     }, []);
 
+    const validationSchema = Yup.object({
+        username: Yup.string()
+            .min(3, 'От 3 до 20 символов')
+            .max(20, 'От 3 до 20 символов')
+            .required('Обязательное поле'),
+        password: Yup.string()
+            .min(6, 'Пароль должен быть минимум 6 символов')
+            .required('Обязательное поле'),
+        passwordConfirm: Yup.string()
+            .required('Обязательное поле')
+            .oneOf([Yup.ref('password')], 'Пароли должны совпадать'),
+    })
+
     const formik = useFormik({
         initialValues: {
             username: '',
             password: '',
             passwordConfirm: '',
         },
-
-        validate: values => {
-            const errors = {};
-            if (!values.username) errors.username = 'Обязательное поле';
-
-            if (!values.password) {
-                errors.password = 'Обязательное поле';
-            } else if (values.password.length < 6) {
-                errors.password = 'Пароль должен быть минимум 6 символов';
-            }
-
-            if (!values.passwordConfirm) {
-                errors.passwordConfirm = 'Повторите пароль';
-            } else if (values.password !== values.passwordConfirm) {
-                errors.passwordConfirm = 'Пароли не совпадают';
-            }
-
-            return errors;
-        },
-
+        validationSchema,
         onSubmit: async (values, { setSubmitting, setStatus }) => {
             setStatus({ error: null });
             try {
