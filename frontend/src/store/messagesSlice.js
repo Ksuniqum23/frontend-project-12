@@ -64,7 +64,6 @@ const messageSlice = createSlice({
             })
             //addMessages
             .addCase(addMessage.pending, (state) => {
-                state.status = 'loading';
                 state.error = null;
             })
             .addCase(addMessage.fulfilled, (state, action) => {

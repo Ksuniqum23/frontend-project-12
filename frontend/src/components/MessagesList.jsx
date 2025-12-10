@@ -1,17 +1,24 @@
 import { useSelector } from "react-redux";
 import { selectAllMessages } from "../store/messagesSlice.js";
-import { useMemo } from "react";
+import { useMemo, useRef, useEffect } from "react";
 
 export default function MessagesList() {
     const activeIdChannel = useSelector((state) => state.channels.activeChannelId);
     const allMessages = useSelector(selectAllMessages);
     const error = useSelector((state) => state.messages.error);
     const loading = useSelector((state) => state.messages.status === 'loading');
+    const messagesEndRef = useRef(null);
 
     const channelMessages = useMemo(() =>
         allMessages.filter((m) => m.channelId === activeIdChannel),
         [allMessages, activeIdChannel]
     );
+
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [channelMessages]);
 
     return (
         <div
@@ -32,6 +39,7 @@ export default function MessagesList() {
                     </div>
                 ))
             )}
+            <div ref={messagesEndRef} />
         </div>
     )
 }
