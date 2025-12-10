@@ -1,4 +1,17 @@
+import { useState } from 'react';
+
 export default function RemoveChannelModal({ isOpen, onClose, onSubmit }) {
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const handleDelete = async () => {
+        setIsDeleting(true);
+        try {
+            await onSubmit();
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
     if (!isOpen) return null;
     return (
         <div
@@ -16,8 +29,10 @@ export default function RemoveChannelModal({ isOpen, onClose, onSubmit }) {
                     </div>
                     <div className="modal-body"><p className="lead">Уверены?</p>
                         <div className="d-flex justify-content-end">
-                            <button type="button" className="me-2 btn btn-secondary" onClick={onClose}>Отменить</button>
-                            <button type="button" className="btn btn-danger" onClick={onSubmit}>Удалить</button>
+                            <button type="button" className="me-2 btn btn-secondary" onClick={onClose} disabled={isDeleting}>Отменить</button>
+                            <button type="button" className="btn btn-danger" onClick={handleDelete} disabled={isDeleting}>
+                                {isDeleting ? 'Удаление...' : 'Удалить'}
+                            </button>
                         </div>
                     </div>
                 </div>

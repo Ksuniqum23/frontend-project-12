@@ -1,9 +1,9 @@
 //!!!!STATE!!!!!!//
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import {loginUser} from "../store/authSlice.js";
+import { loginUser } from "../store/authSlice.js";
 
 function LoginPage() {
     const dispatch = useDispatch();
@@ -13,6 +13,11 @@ function LoginPage() {
     const { loading, error: authError } = useSelector((state) => state.auth);
 
     const from = location.state?.from?.pathname || "/";
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
 
     const formik = useFormik({
         // Начальные значения полей
@@ -31,7 +36,7 @@ function LoginPage() {
         onSubmit: async (values, { setSubmitting, setStatus }) => {
             setStatus({ error: null });
             try {
-                await dispatch(loginUser({username: values.username, password: values.password}));
+                await dispatch(loginUser({ username: values.username, password: values.password }));
                 navigate(from, { replace: true });
             } catch (err) {
                 const message = err?.message || err || 'Ошибка авторизации';
@@ -63,12 +68,14 @@ function LoginPage() {
                                         <img src="/avatar-login.jpg" className="rounded-circle" alt="Войти" />
                                     </div>
                                     <form className="col-12 col-md-6 mt-3 mt-md-0"
-                                          onSubmit={formik.handleSubmit}
+                                        onSubmit={formik.handleSubmit}
                                     >
 
                                         <h1 className="text-center mb-4">Войти</h1>
                                         <div className="form-floating mb-3">
-                                            <input name="username"
+                                            <input
+                                                ref={inputRef}
+                                                name="username"
                                                 autoComplete="username"
                                                 // required=""
                                                 placeholder="Ваш ник" id="username"
@@ -102,8 +109,8 @@ function LoginPage() {
                                         </div>
 
                                         <button type="submit"
-                                                className="w-100 mb-3 btn btn-outline-primary"
-                                                disabled={formik.isSubmitting || loading}
+                                            className="w-100 mb-3 btn btn-outline-primary"
+                                            disabled={formik.isSubmitting || loading}
                                         >{loading || formik.isSubmitting ? 'Входим...' : 'Войти'}
                                         </button>
 

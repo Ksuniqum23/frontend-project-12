@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signupUser } from "../store/authSlice.js";
@@ -8,6 +8,11 @@ const SignupPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { loading } = useSelector(state => state.auth);
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
 
     const formik = useFormik({
         initialValues: {
@@ -72,7 +77,9 @@ const SignupPage = () => {
 
                                             {/* Поле: username */}
                                             <div className="form-floating mb-3">
-                                                <input placeholder="От 3 до 20 символов"
+                                                <input
+                                                    ref={inputRef}
+                                                    placeholder="От 3 до 20 символов"
                                                     name="username"
                                                     autoComplete="username"
                                                     required="" id="username"
@@ -126,7 +133,13 @@ const SignupPage = () => {
                                                 <label className="form-label" htmlFor="passwordConfirm">Подтвердите пароль</label>
                                             </div>
 
-                                            <button type="submit" className="w-100 btn btn-outline-primary">Зарегистрироваться</button>
+                                            <button
+                                                type="submit"
+                                                className="w-100 btn btn-outline-primary"
+                                                disabled={formik.isSubmitting || loading}
+                                            >
+                                                {loading || formik.isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
+                                            </button>
                                         </form>
                                     </div>
                                 </div>

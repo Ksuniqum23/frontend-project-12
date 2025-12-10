@@ -1,12 +1,12 @@
-import {useEffect, useRef } from "react";
-import {useFormik} from "formik";
+import { useEffect, useRef } from "react";
+import { useFormik } from "formik";
 import * as Yup from 'yup';
-import {useSelector} from "react-redux";
-import {selectAllChannels} from "../../store/channelsSlice.js";
+import { useSelector } from "react-redux";
+import { selectAllChannels } from "../../store/channelsSlice.js";
 
 
 
-export default function AddChannelModal({isOpen, onClose, onSubmit}) {
+export default function AddChannelModal({ isOpen, onClose, onSubmit }) {
     const inputRef = useRef(null);
 
     useEffect(() => {
@@ -85,8 +85,12 @@ export default function AddChannelModal({isOpen, onClose, onSubmit}) {
                                     >
                                         Отменить
                                     </button>
-                                    <button type="submit" className="btn btn-primary">
-                                        Отправить
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                        disabled={formik.isSubmitting}
+                                    >
+                                        {formik.isSubmitting ? 'Отправка...' : 'Отправить'}
                                     </button>
                                 </div>
                             </div>

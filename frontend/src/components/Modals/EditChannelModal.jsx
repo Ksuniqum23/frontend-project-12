@@ -79,7 +79,7 @@ export default function EditChannelModal({ isOpen, onClose, onSubmit, channel })
                                     name="editChannelName"
                                     id="editChannelName"
                                     className={`mb-2 form-control ${formik.touched.editChannelName &&
-                                            formik.errors.editChannelName ? 'is-invalid' : ''
+                                        formik.errors.editChannelName ? 'is-invalid' : ''
                                         }`}
                                     value={formik.values.editChannelName}
                                     onChange={formik.handleChange}
@@ -101,8 +101,12 @@ export default function EditChannelModal({ isOpen, onClose, onSubmit, channel })
                                     >
                                         Отменить
                                     </button>
-                                    <button type="submit" className="btn btn-primary">
-                                        Отправить
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                        disabled={formik.isSubmitting}
+                                    >
+                                        {formik.isSubmitting ? 'Отправка...' : 'Отправить'}
                                     </button>
                                 </div>
                             </div>

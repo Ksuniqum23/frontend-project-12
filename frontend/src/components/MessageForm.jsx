@@ -1,9 +1,10 @@
-import {useEffect, useRef, useState} from "react";
-import {addMessage} from "../store/messagesSlice.js";
-import {useDispatch, useSelector} from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import { addMessage } from "../store/messagesSlice.js";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function MessageForm() {
     const [message, setMessage] = useState('');
+    const [sending, setSending] = useState(false);
     const activeChannelId = useSelector((state) => state.channels.activeChannelId);
     const user = useSelector((state) => state.auth.user);
 
@@ -20,10 +21,17 @@ export default function MessageForm() {
         username: user,
     }
 
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
-        dispatch(addMessage(newMessage));
-        setMessage('');
+        if (!message.trim() || !activeChannelId || sending) return;
+        setSending(true);
+        try {
+            await dispatch(addMessage(newMessage));
+            setMessage('');
+        } finally {
+            setSending(false);
+            inputRef.current?.focus();
+        }
     }
     return (
         <div className="mt-auto px-5 py-3">
@@ -40,14 +48,14 @@ export default function MessageForm() {
                         className="border-0 p-0 ps-2 form-control"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
-                        // disabled={!activeChannel || sending}
+                        disabled={!activeChannelId || sending}
                     />
                     <button
                         type="submit"
-                        // disabled={!body.trim() || sending || !activeChannel}
+                        disabled={!message.trim() || sending || !activeChannelId}
                         className="btn btn-group-vertical"
                     >
-                        Отправить
+                        {sending ? 'Отправка...' : 'Отправить'}
                     </button>
                 </div>
             </form>
