@@ -4,11 +4,14 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../store/authSlice.js";
 import * as Yup from 'yup';
+import {useTranslation} from "react-i18next";
+import Navbar from "../components/Navbar.jsx";
 
 function LoginPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
+    const { t } = useTranslation();
 
     const { loading, error: authError } = useSelector((state) => state.auth);
 
@@ -21,12 +24,12 @@ function LoginPage() {
 
     const validationSchema = Yup.object({
         username: Yup.string()
-            .min(3, 'От 3 до 20 символов')
-            .max(20, 'От 3 до 20 символов')
-            .required('Обязательное поле'),
+            .min(3, t('errors.min_3_max_20_symbols'))
+            .max(20, t('errors.min_3_max_20_symbols'))
+            .required(t('errors.required')),
         password: Yup.string()
-            .min(6, 'Пароль должен быть минимум 6 символов')
-            .required('Обязательное поле'),
+            .min(6, t('errors.min_6_symbols_password'))
+            .required(t('errors.required')),
     })
     const formik = useFormik({
         // Начальные значения полей
@@ -53,13 +56,7 @@ function LoginPage() {
     return (
         <div className="h-100">
             <div className="d-flex flex-column h-100">
-
-                <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
-                    <div className="container">
-                        <a className="navbar-brand" href="/">Hexlet Chat</a>
-                    </div>
-                </nav>
-
+                <Navbar />
                 <div className="container-fluid h-100">
                     <div className="row justify-content-center align-content-center h-100">
                         <div className="col-12 col-md-8 col-xxl-6">
@@ -73,14 +70,14 @@ function LoginPage() {
                                         onSubmit={formik.handleSubmit}
                                     >
 
-                                        <h1 className="text-center mb-4">Войти</h1>
+                                        <h1 className="text-center mb-4">{t('ui.auth.sign_in')}</h1>
                                         <div className="form-floating mb-3">
                                             <input
                                                 ref={inputRef}
                                                 name="username"
                                                 autoComplete="username"
                                                 // required=""
-                                                placeholder="Ваш ник" id="username"
+                                                placeholder={t('ui.auth.your_name_placeholder')}
                                                 className="form-control"
                                                 value={formik.values.username} // Берем значение из Formik
                                                 onChange={formik.handleChange} // Обработчик изменений
@@ -89,14 +86,14 @@ function LoginPage() {
                                             {formik.touched.username && formik.errors.username && (
                                                 <div style={{ color: 'red', fontSize: 13 }}>{formik.errors.username}</div>
                                             )}
-                                            <label htmlFor="username">Ваш ник</label>
+                                            <label htmlFor="username">{t('ui.auth.your_name_placeholder')}</label>
                                         </div>
 
                                         <div className="form-floating mb-4">
                                             <input name="password"
                                                 autoComplete="current-password"
                                                 // required=""
-                                                placeholder="Пароль"
+                                                placeholder={t('ui.auth.password_placeholder')}
                                                 type="password"
                                                 id="password"
                                                 className="form-control"
@@ -107,13 +104,13 @@ function LoginPage() {
                                             {formik.touched.password && formik.errors.password && (
                                                 <div style={{ color: 'red', fontSize: 13 }}>{formik.errors.password}</div>
                                             )}
-                                            <label className="form-label" htmlFor="password">Пароль</label>
+                                            <label className="form-label" htmlFor="password">{t('ui.auth.password_placeholder')}</label>
                                         </div>
 
                                         <button type="submit"
                                             className="w-100 mb-3 btn btn-outline-primary"
                                             disabled={formik.isSubmitting || loading}
-                                        >{loading || formik.isSubmitting ? 'Входим...' : 'Войти'}
+                                        >{loading || formik.isSubmitting ? t('loading.coming_in') : t('ui.auth.sign_in')}
                                         </button>
 
                                     </form>
@@ -132,23 +129,10 @@ function LoginPage() {
                                     </div>
                                 )}
 
-                                {/*{formik.status?.error && (*/}
-                                {/*    <div style={{*/}
-                                {/*        marginBottom: 12,*/}
-                                {/*        padding: 10,*/}
-                                {/*        background: '#ffecec',*/}
-                                {/*        color: '#b00020',*/}
-                                {/*        borderRadius: 4,*/}
-                                {/*        border: '1px solid #f5c2c2'*/}
-                                {/*    }}>*/}
-                                {/*        {formik.status.error}*/}
-                                {/*    </div>*/}
-                                {/*)}*/}
-
                                 <div className="card-footer p-4">
                                     <div className="text-center">
-                                        <span>Нет аккаунта? </span>
-                                        <Link to="/signup">Регистрация</Link>
+                                        <span>{t('ui.auth.have_no_account')} </span>
+                                        <Link to="/signup">{t('ui.auth.registration')}</Link>
                                     </div>
                                 </div>
 
@@ -162,21 +146,3 @@ function LoginPage() {
 }
 
 export default LoginPage
-
-
-// onSubmit: async (values, { setSubmitting, setStatus }) => {
-//     try {
-//         console.log('Данные формы:', values);
-//         const userData = await loginUser(values.username, values.password);
-//         console.log('Авторизация успешна!');
-//         console.log('Токен:', userData.token);
-//         console.log('DATA:', userData);
-//         // navigate('/');
-//         navigate(from, { replace: true });
-//     } catch (error) {
-//         console.error('Ошибка авторизации:', error);
-//         setStatus({ error: error.message });
-//     } finally {
-//         setSubmitting(false);
-//     }
-// },

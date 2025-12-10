@@ -34,7 +34,8 @@ export default {
     loading: {
         registration: 'Регистрация...',
         send: 'Отправка...',
-        messages: 'Загрузка сообщений...'
+        messages: 'Загрузка сообщений...',
+        coming_in: 'Входим...'
     },
     errors: {
         min_3_max_20_symbols: 'От 3 до 20 символов',
