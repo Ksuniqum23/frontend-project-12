@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import AddChannelModal from "./Modals/AddChannelModal.jsx";
 import EditChannelModal from "./Modals/EditChannelModal.jsx";
 import {
@@ -9,7 +9,7 @@ import {
     selectAllChannels,
     setActiveChannel
 } from "../store/channelsSlice.js";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import RemoveChannelModal from "./Modals/RemoveChannelModal.jsx";
 
 export default function ChannelsList() {
@@ -23,10 +23,17 @@ export default function ChannelsList() {
 
     const channels = useSelector(selectAllChannels);
     const activeChannelId = useSelector(state => state.channels.activeChannelId);
+    const channelsEndRef = useRef(null);
 
     useEffect(() => {
         dispatch(fetchChannels());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (channelsEndRef.current) {
+            channelsEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [channels]);
 
     const handleAddChannel = (name) => {
         dispatch(addChannel(name));
@@ -91,7 +98,7 @@ export default function ChannelsList() {
                         <button
                             type="button"
                             className={`flex-grow-1 rounded-0 text-start btn ${channel.id === activeChannelId ? 'btn-secondary' : 'btn-light'
-                            }`}
+                                }`}
                             onClick={() => dispatch(setActiveChannel(channel.id))}
                         >
                             <span className="me-1">#</span>
@@ -132,6 +139,7 @@ export default function ChannelsList() {
                     </li>
                 ))
                 }
+                <li ref={channelsEndRef} />
             </ul>
         </div>
     )

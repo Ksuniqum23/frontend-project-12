@@ -1,6 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { addChannelApi, deleteChannelApi, editChannelApi, fetchChannelsApi } from "../api/channels.js";
-import {removeMessagesByChannel} from "./messagesSlice.js";
+import { removeMessagesByChannel } from "./messagesSlice.js";
 
 const channelsAdapter = createEntityAdapter();
 
@@ -17,7 +17,7 @@ export const fetchChannels = createAsyncThunk(
 
 export const addChannel = createAsyncThunk(
     'channels/addChannel',
-    async (name, { getState,rejectWithValue }) => {
+    async (name, { getState, rejectWithValue }) => {
         const state = getState();
         const channels = selectAllChannels(state);
         const isDuplicate = channels.some((ch) => ch.name.trim().toLowerCase() === name.trim().toLowerCase());
@@ -109,7 +109,6 @@ const channelSlice = createSlice({
 
             // addChannel
             .addCase(addChannel.pending, (state) => {
-                state.status = 'loading';
                 state.error = null;
             })
             .addCase(addChannel.fulfilled, (state, action) => {
@@ -125,7 +124,6 @@ const channelSlice = createSlice({
 
             // editChannel
             .addCase(editChannel.pending, (state) => {
-                state.status = 'loading';
                 state.error = null;
             })
             .addCase(editChannel.fulfilled, (state, action) => {
@@ -141,7 +139,6 @@ const channelSlice = createSlice({
 
             // deleteChannel
             .addCase(deleteChannel.pending, (state) => {
-                state.status = 'loading';
                 state.error = null;
             })
             .addCase(deleteChannel.fulfilled, (state, action) => {
