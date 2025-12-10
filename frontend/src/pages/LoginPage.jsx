@@ -1,9 +1,9 @@
-//!!!!STATE!!!!!!//
 import React, { useRef, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../store/authSlice.js";
+import * as Yup from 'yup';
 
 function LoginPage() {
     const dispatch = useDispatch();
@@ -19,20 +19,22 @@ function LoginPage() {
         inputRef.current?.focus();
     }, []);
 
+    const validationSchema = Yup.object({
+        username: Yup.string()
+            .min(3, 'От 3 до 20 символов')
+            .max(20, 'От 3 до 20 символов')
+            .required('Обязательное поле'),
+        password: Yup.string()
+            .min(6, 'Пароль должен быть минимум 6 символов')
+            .required('Обязательное поле'),
+    })
     const formik = useFormik({
         // Начальные значения полей
         initialValues: {
             username: '',
             password: ''
         },
-
-        validate: values => {
-            const errors = {};
-            if (!values.username) errors.username = 'Введите логин';
-            if (!values.password) errors.password = 'Введите пароль';
-            return errors;
-        },
-
+        validationSchema,
         onSubmit: async (values, { setSubmitting, setStatus }) => {
             setStatus({ error: null });
             try {
@@ -54,7 +56,7 @@ function LoginPage() {
 
                 <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
                     <div className="container">
-                        <a className="navbar-brand" href="/frontend/public">Hexlet Chat</a>
+                        <a className="navbar-brand" href="/">Hexlet Chat</a>
                     </div>
                 </nav>
 

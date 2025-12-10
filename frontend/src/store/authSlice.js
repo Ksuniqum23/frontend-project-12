@@ -8,6 +8,9 @@ export const loginUser = createAsyncThunk(
         try {
             return await loginUserApi(username, password);
         } catch (error) {
+            if (error.response?.status === 401 || error.response?.status === 403) {
+                return rejectWithValue('Неверные имя пользователя или пароль');
+            }
             return rejectWithValue(error.message);
         }
     }
@@ -19,6 +22,9 @@ export const signupUser = createAsyncThunk(
         try {
             return await signupUserApi(username, password);
         } catch (error) {
+            if (error.response?.status === 409) {
+                return rejectWithValue('Такой пользователь уже существует');
+            }
             return rejectWithValue(error.message);
         }
     }
