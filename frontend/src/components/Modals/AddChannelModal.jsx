@@ -1,13 +1,10 @@
 import {useEffect, useRef } from "react";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
+import {useSelector} from "react-redux";
+import {selectAllChannels} from "../../store/channelsSlice.js";
 
-const validationSchema = Yup.object({
-    channelName: Yup.string()
-        .min(3, 'От 3 до 20 символов')
-        .max(20, 'От 3 до 20 символов')
-        .required('Обязательное поле'),
-});
+
 
 export default function AddChannelModal({isOpen, onClose, onSubmit}) {
     const inputRef = useRef(null);
@@ -17,6 +14,19 @@ export default function AddChannelModal({isOpen, onClose, onSubmit}) {
             inputRef.current.focus();
         }
     }, [isOpen]);
+
+    const channels = useSelector(selectAllChannels);
+    const channelNames = Object.values(channels).map(ch => ch.name);
+
+    const validationSchema = Yup.object({
+        channelName: Yup.string()
+            .min(3, 'От 3 до 20 символов')
+            .max(20, 'От 3 до 20 символов')
+            .required('Обязательное поле')
+            .test('unique-name', 'Канал с таким именем уже существует',
+                (value) => !channelNames.includes(value?.trim())
+            ),
+    });
 
     const formik = useFormik({
         initialValues: {

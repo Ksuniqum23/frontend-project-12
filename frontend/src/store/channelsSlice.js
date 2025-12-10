@@ -17,7 +17,13 @@ export const fetchChannels = createAsyncThunk(
 
 export const addChannel = createAsyncThunk(
     'channels/addChannel',
-    async (name, { rejectWithValue }) => {
+    async (name, { getState,rejectWithValue }) => {
+        const state = getState();
+        const channels = selectAllChannels(state);
+        const isDuplicate = channels.some((ch) => ch.name.trim().toLowerCase() === name.trim().toLowerCase());
+        if (isDuplicate) {
+            return rejectWithValue('Канал с таким именем уже существует');
+        }
         try {
             return await addChannelApi(name);
         } catch (err) {
