@@ -28,8 +28,10 @@ export default function MessageForm() {
         if (!message.trim() || !activeChannelId || sending) return;
         setSending(true);
         try {
-            await dispatch(addMessage(newMessage));
+            await dispatch(addMessage(newMessage))
             setMessage('');
+        } catch (e) {
+            console.error(e);
         } finally {
             setSending(false);
             inputRef.current?.focus();

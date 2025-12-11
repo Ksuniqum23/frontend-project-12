@@ -24,6 +24,9 @@ export default {
             new_channel_placeholder: 'Channel name',
             select_channel: 'Select channel',
             are_you_sure: 'Are you sure?',
+            channel_created: 'Channel created',
+            channel_renamed: 'Channel renamed',
+            channel_removed: 'Channel removed',
         },
         messages: {
             n_messages: 'messages',

@@ -24,6 +24,9 @@ export default {
             new_channel_placeholder: 'Имя канала',
             select_channel: 'Выберите канал',
             are_you_sure: 'Уверены?',
+            channel_created: 'Канал создан',
+            channel_renamed: 'Канал переименован',
+            channel_removed: 'Канал удалён',
         },
         messages: {
             n_messages: 'сообщений',

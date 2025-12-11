@@ -36,9 +36,9 @@ export default function EditChannelModal({ isOpen, onClose, onSubmit, channel })
             editChannelName: channel?.name || '',
         },
         validationSchema,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             if (channel) {
-                onSubmit(channel.id, values.editChannelName.trim());
+                await onSubmit(channel.id, values.editChannelName.trim());
                 onClose();
             }
         }

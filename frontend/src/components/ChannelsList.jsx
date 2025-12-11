@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import RemoveChannelModal from "./Modals/RemoveChannelModal.jsx";
 import { useTranslation } from "react-i18next";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function ChannelsList() {
     const dispatch = useDispatch();
@@ -38,9 +38,14 @@ export default function ChannelsList() {
         }
     }, [channels]);
 
-    const handleAddChannel = (name) => {
-        dispatch(addChannel(name));
-        toast.success('Канал создан');
+    const handleAddChannel = async (name) => {
+        try {
+            await dispatch(addChannel(name)).unwrap();
+            toast.success(t('ui.channels.channel_created'));
+        } catch (e) {
+            console.error(e);
+            throw e;
+        }
     }
 
     const handleOpenEditModal = (channel) => {
@@ -53,16 +58,25 @@ export default function ChannelsList() {
         setIsDeleteChannelModalOpen(true);
     }
 
-    const handleEditChannel = (channelId, newName) => {
-        dispatch(editChannel({ channelId, newName }));
-        toast.success('Канал переименован');
+    const handleEditChannel = async (channelId, newName) => {
+        try {
+            await dispatch(editChannel({ channelId, newName })).unwrap();
+            toast.success(t('ui.channels.channel_renamed'));
+        } catch (e) {
+            console.error(e);
+            throw e;
+        }
     }
 
-    const handleDeleteChannel = (channelId) => {
-        dispatch(deleteChannel(channelId));
-        setIsDeleteChannelModalOpen(false);
-        setChannelToDelete(null);
-        toast.success('Канал удалён');
+    const handleDeleteChannel = async (channelId) => {
+        try {
+            await dispatch(deleteChannel(channelId));
+            setIsDeleteChannelModalOpen(false);
+            setChannelToDelete(null);
+            toast.success(t('ui.channels.channel_removed'));
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     return (

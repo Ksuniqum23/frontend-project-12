@@ -3,10 +3,26 @@ import MessagesList from "../components/MessagesList.jsx";
 import MessageForm from "../components/MessageForm.jsx";
 import ChannelsList from "../components/ChannelsList.jsx";
 import Navbar from "../components/Navbar.jsx";
-import {ToastContainer} from "react-toastify";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 
 export default function ChatPage() {
+    const channelsError = useSelector((state) => state.channels.error);
+    const messagesError = useSelector((state) => state.messages.error);
+
+    useEffect(() => {
+        if (channelsError) {
+            toast.error(channelsError);
+        }
+    }, [channelsError]);
+
+    useEffect(() => {
+        if (messagesError) {
+            toast.error(messagesError);
+        }
+    }, [messagesError]);
 
     return (
         <div className="h-100">
@@ -28,11 +44,6 @@ export default function ChatPage() {
                 </div>
             </div>
 
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-            />
             {/*<div className="Toastify" />*/}
         </div>
     );
