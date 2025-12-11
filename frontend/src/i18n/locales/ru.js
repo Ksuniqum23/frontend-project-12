@@ -8,6 +8,7 @@ export default {
         },
         auth: {
             sign_in: 'Войти',
+            logout: 'Выйти',
             your_name_placeholder: 'Имя пользователя',
             password_placeholder: 'Пароль',
             confirm_password_placeholder: 'Подтвердите пароль',
@@ -16,9 +17,13 @@ export default {
             registration_btn: 'Зарегистрироваться',
         },
         channels: {
+            channels: 'Каналы',
             add_channel: 'Добавить канал',
+            rename_channel: 'Переименовать канал',
+            remove_channel: 'Удалить канал',
             new_channel_placeholder: 'Имя канала',
             select_channel: 'Выберите канал',
+            are_you_sure: 'Уверены?',
         },
         messages: {
             n_messages: 'сообщений',
@@ -34,6 +39,7 @@ export default {
     loading: {
         registration: 'Регистрация...',
         send: 'Отправка...',
+        remove: 'Удаление...',
         messages: 'Загрузка сообщений...',
         coming_in: 'Входим...'
     },

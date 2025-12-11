@@ -1,17 +1,12 @@
-import { logout } from "../store/authSlice.js";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-export default function Navbar() {
+export default function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { t, i18n } = useTranslation();
 
-    const handleLogout = () => {
-        dispatch(logout());
-        navigate("/login");
-    };
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
@@ -45,8 +40,6 @@ export default function Navbar() {
                             </button>
                         </div>
                     </div>
-
-                    <button type="button" className="btn btn-primary" onClick={handleLogout}>{t('ui.auth.logout')}</button>
                 </div>
             </nav>
         </>

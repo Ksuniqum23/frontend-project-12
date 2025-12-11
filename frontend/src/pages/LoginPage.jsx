@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../store/authSlice.js";
 import * as Yup from 'yup';
 import {useTranslation} from "react-i18next";
-import Navbar from "../components/Navbar.jsx";
+import Header from "../components/Header.jsx";
 
 function LoginPage() {
     const dispatch = useDispatch();
@@ -56,7 +56,7 @@ function LoginPage() {
     return (
         <div className="h-100">
             <div className="d-flex flex-column h-100">
-                <Navbar />
+                <Header />
                 <div className="container-fluid h-100">
                     <div className="row justify-content-center align-content-center h-100">
                         <div className="col-12 col-md-8 col-xxl-6">

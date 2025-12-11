@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { useSelector } from "react-redux";
 import { selectAllChannels } from "../../store/channelsSlice.js";
+import { useTranslation } from "react-i18next";
 
 
 
@@ -17,13 +18,14 @@ export default function AddChannelModal({ isOpen, onClose, onSubmit }) {
 
     const channels = useSelector(selectAllChannels);
     const channelNames = Object.values(channels).map(ch => ch.name);
+    const { t } = useTranslation();
 
     const validationSchema = Yup.object({
         channelName: Yup.string()
-            .min(3, 'От 3 до 20 символов')
-            .max(20, 'От 3 до 20 символов')
-            .required('Обязательное поле')
-            .test('unique-name', 'Канал с таким именем уже существует',
+            .min(3, t('errors.min_3_max_20_symbols'))
+            .max(20, t('errors.min_3_max_20_symbols'))
+            .required(t('errors.required'))
+            .test('unique-name', t('errors.duplicate_channel'),
                 (value) => !channelNames.includes(value?.trim())
             ),
     });
@@ -52,7 +54,7 @@ export default function AddChannelModal({ isOpen, onClose, onSubmit }) {
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <div className="modal-title h4">Добавить канал</div>
+                        <div className="modal-title h4">{t('ui.channels.add_channel')}</div>
                         <button
                             type="button"
                             aria-label="Close"
@@ -71,7 +73,7 @@ export default function AddChannelModal({ isOpen, onClose, onSubmit }) {
                                     value={formik.values.channelName}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    placeholder="Имя канала"
+                                    placeholder={t('ui.channels.new_channel_placeholder')}
                                     required
                                 />
                                 {formik.touched.channelName && formik.errors.channelName && (
@@ -83,14 +85,14 @@ export default function AddChannelModal({ isOpen, onClose, onSubmit }) {
                                         className="me-2 btn btn-secondary"
                                         onClick={onClose}
                                     >
-                                        Отменить
+                                        {t('ui.common.cancel')}
                                     </button>
                                     <button
                                         type="submit"
                                         className="btn btn-primary"
                                         disabled={formik.isSubmitting}
                                     >
-                                        {formik.isSubmitting ? 'Отправка...' : 'Отправить'}
+                                        {formik.isSubmitting ? t('loading.send') : t('ui.common.send')}
                                     </button>
                                 </div>
                             </div>

@@ -8,6 +8,7 @@ export default {
         },
         auth: {
             sign_in: 'Sign in',
+            logout: 'Log out',
             your_name_placeholder: 'Username',
             password_placeholder: 'Password',
             confirm_password_placeholder: 'Confirm password',
@@ -16,9 +17,13 @@ export default {
             registration_btn: 'Register',
         },
         channels: {
+            channels: 'Channels',
             add_channel: 'Add channel',
+            rename_channel: 'Rename channel',
+            remove_channel: 'Remove channel',
             new_channel_placeholder: 'Channel name',
             select_channel: 'Select channel',
+            are_you_sure: 'Are you sure?',
         },
         messages: {
             n_messages: 'messages',
@@ -34,7 +39,9 @@ export default {
     loading: {
         registration: 'Registration...',
         send: 'Sending...',
-        messages: 'Loading messages...'
+        remove: 'Removing...',
+        messages: 'Loading messages...',
+        coming_in: 'Signing in...'
     },
     errors: {
         min_3_max_20_symbols: '3 to 20 characters',

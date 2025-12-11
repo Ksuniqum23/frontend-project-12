@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { addMessage } from "../store/messagesSlice.js";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 export default function MessageForm() {
     const [message, setMessage] = useState('');
@@ -10,6 +11,7 @@ export default function MessageForm() {
 
     const dispatch = useDispatch();
     const inputRef = useRef(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         inputRef.current?.focus();
@@ -43,8 +45,8 @@ export default function MessageForm() {
                     <input
                         ref={inputRef}
                         name="body"
-                        aria-label="Новое сообщение"
-                        placeholder={activeChannelId ? 'Введите сообщение...' : 'Выберите канал'}
+                        aria-label={t('ui.messages.new_message_label')}
+                        placeholder={activeChannelId ? t('ui.messages.new_message_placeholder') : t('ui.channels.select_channel')}
                         className="border-0 p-0 ps-2 form-control"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
@@ -55,7 +57,7 @@ export default function MessageForm() {
                         disabled={!message.trim() || sending || !activeChannelId}
                         className="btn btn-group-vertical"
                     >
-                        {sending ? 'Отправка...' : 'Отправить'}
+                        {sending ? t('loading.send') : t('ui.common.send')}
                     </button>
                 </div>
             </form>

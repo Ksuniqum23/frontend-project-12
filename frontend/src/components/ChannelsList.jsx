@@ -11,6 +11,8 @@ import {
 } from "../store/channelsSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import RemoveChannelModal from "./Modals/RemoveChannelModal.jsx";
+import { useTranslation } from "react-i18next";
+import {toast} from "react-toastify";
 
 export default function ChannelsList() {
     const dispatch = useDispatch();
@@ -24,6 +26,7 @@ export default function ChannelsList() {
     const channels = useSelector(selectAllChannels);
     const activeChannelId = useSelector(state => state.channels.activeChannelId);
     const channelsEndRef = useRef(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         dispatch(fetchChannels());
@@ -37,6 +40,7 @@ export default function ChannelsList() {
 
     const handleAddChannel = (name) => {
         dispatch(addChannel(name));
+        toast.success('Канал создан');
     }
 
     const handleOpenEditModal = (channel) => {
@@ -51,22 +55,24 @@ export default function ChannelsList() {
 
     const handleEditChannel = (channelId, newName) => {
         dispatch(editChannel({ channelId, newName }));
+        toast.success('Канал переименован');
     }
 
     const handleDeleteChannel = (channelId) => {
         dispatch(deleteChannel(channelId));
         setIsDeleteChannelModalOpen(false);
         setChannelToDelete(null);
+        toast.success('Канал удалён');
     }
 
     return (
         <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
             <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-                <b>Каналы</b>
+                <b>{t('ui.channels.channels')}</b>
                 <button
                     type="button"
                     className="p-0 text-primary btn btn-group-vertical"
-                    aria-label="Создать канал"
+                    aria-label={t('ui.channels.add_channel')}
                     onClick={() => setIsAddChannelModalOpen(true)}
                 >
                     +
@@ -122,7 +128,7 @@ export default function ChannelsList() {
                                             className="dropdown-item"
                                             onClick={() => handleOpenEditModal(channel)}
                                         >
-                                            Переименовать
+                                            {t('ui.common.rename')}
                                         </button>
                                     </li>
                                     <li>
@@ -130,7 +136,7 @@ export default function ChannelsList() {
                                             className="dropdown-item text-danger"
                                             onClick={() => handleOpenDeleteModal(channel)}
                                         >
-                                            Удалить
+                                            {t('ui.common.remove')}
                                         </button>
                                     </li>
                                 </ul>
@@ -140,6 +146,7 @@ export default function ChannelsList() {
                 ))
                 }
                 <li ref={channelsEndRef} />
+
             </ul>
         </div>
     )

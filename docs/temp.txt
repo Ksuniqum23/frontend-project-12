@@ -30,3 +30,4 @@
     npm install socket.io-client
     npm install yup
     npm install i18next react-i18next
+    npm install --save react-toastify

@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import { selectAllChannels } from "../../store/channelsSlice.js";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 
 export default function EditChannelModal({ isOpen, onClose, onSubmit, channel }) {
     const inputRef = useRef(null);
@@ -18,13 +19,14 @@ export default function EditChannelModal({ isOpen, onClose, onSubmit, channel })
     const channelNames = Object.values(channels)
         .filter(ch => ch.id !== channel?.id)
         .map(ch => ch.name);
+    const { t } = useTranslation();
 
     const validationSchema = Yup.object({
         editChannelName: Yup.string()
-            .min(3, 'От 3 до 20 символов')
-            .max(20, 'От 3 до 20 символов')
-            .required('Обязательное поле')
-            .test('unique-name', 'Канал с таким именем уже существует',
+            .min(3, t('errors.min_3_max_20_symbols'))
+            .max(20, t('errors.min_3_max_20_symbols'))
+            .required(t('errors.required'))
+            .test('unique-name', t('errors.duplicate_channel'),
                 (value) => !channelNames.includes(value?.trim())
             ),
     });
@@ -63,7 +65,7 @@ export default function EditChannelModal({ isOpen, onClose, onSubmit, channel })
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <div className="modal-title h4">Переименовать канал</div>
+                        <div className="modal-title h4">{t('ui.channels.rename_channel')}</div>
                         <button
                             type="button"
                             aria-label="Close"
@@ -83,7 +85,7 @@ export default function EditChannelModal({ isOpen, onClose, onSubmit, channel })
                                         }`}
                                     value={formik.values.editChannelName}
                                     onChange={formik.handleChange}
-                                    placeholder="Новое название канала"
+                                    placeholder={t('ui.channels.new_channel_placeholder')}
                                     required
                                 />
                                 {formik.touched.editChannelName &&
@@ -99,14 +101,14 @@ export default function EditChannelModal({ isOpen, onClose, onSubmit, channel })
                                         className="me-2 btn btn-secondary"
                                         onClick={onClose}
                                     >
-                                        Отменить
+                                        {t('ui.common.cancel')}
                                     </button>
                                     <button
                                         type="submit"
                                         className="btn btn-primary"
                                         disabled={formik.isSubmitting}
                                     >
-                                        {formik.isSubmitting ? 'Отправка...' : 'Отправить'}
+                                        {formik.isSubmitting ? t('loading.send') : t('ui.common.send')}
                                     </button>
                                 </div>
                             </div>

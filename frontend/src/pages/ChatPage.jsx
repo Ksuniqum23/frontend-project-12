@@ -3,6 +3,7 @@ import MessagesList from "../components/MessagesList.jsx";
 import MessageForm from "../components/MessageForm.jsx";
 import ChannelsList from "../components/ChannelsList.jsx";
 import Navbar from "../components/Navbar.jsx";
+import {ToastContainer} from "react-toastify";
 
 
 export default function ChatPage() {
@@ -27,7 +28,12 @@ export default function ChatPage() {
                 </div>
             </div>
 
-            <div className="Toastify" />
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+            />
+            {/*<div className="Toastify" />*/}
         </div>
     );
 }

@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function RemoveChannelModal({ isOpen, onClose, onSubmit }) {
     const [isDeleting, setIsDeleting] = useState(false);
+    const { t } = useTranslation();
 
     const handleDelete = async () => {
         setIsDeleting(true);
@@ -24,14 +26,14 @@ export default function RemoveChannelModal({ isOpen, onClose, onSubmit }) {
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <div className="modal-title h4">Удалить канал</div>
+                        <div className="modal-title h4">{t('ui.channels.remove_channel')}</div>
                         <button type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close" onClick={onClose}></button>
                     </div>
-                    <div className="modal-body"><p className="lead">Уверены?</p>
+                    <div className="modal-body"><p className="lead">{t('ui.channels.are_you_sure')}</p>
                         <div className="d-flex justify-content-end">
-                            <button type="button" className="me-2 btn btn-secondary" onClick={onClose} disabled={isDeleting}>Отменить</button>
+                            <button type="button" className="me-2 btn btn-secondary" onClick={onClose} disabled={isDeleting}>{t('ui.common.cancel')}</button>
                             <button type="button" className="btn btn-danger" onClick={handleDelete} disabled={isDeleting}>
-                                {isDeleting ? 'Удаление...' : 'Удалить'}
+                                {isDeleting ? t('loading.remove') : t('ui.common.remove')}
                             </button>
                         </div>
                     </div>
