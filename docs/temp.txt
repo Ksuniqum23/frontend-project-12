@@ -31,3 +31,4 @@
     npm install yup
     npm install i18next react-i18next
     npm install --save react-toastify
+    npm install leo-profanity - фильтр мата

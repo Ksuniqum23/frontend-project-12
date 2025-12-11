@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { addMessage } from "../store/messagesSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import {filterProfanity} from "../profanityFilter/filterProfanity.js";
 
 export default function MessageForm() {
     const [message, setMessage] = useState('');
@@ -14,21 +15,26 @@ export default function MessageForm() {
     const { t } = useTranslation();
 
     useEffect(() => {
-        inputRef.current?.focus();
-    }, [activeChannelId]);
-
-    const newMessage = {
-        body: message,
-        channelId: activeChannelId,
-        username: user,
-    }
+        if (!sending && message === '') {
+            inputRef.current?.focus();
+        }
+    }, [sending, message, activeChannelId]);
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        if (!message.trim() || !activeChannelId || sending) return;
+        const filteredMessage = filterProfanity(message.trim());
+        if (!filteredMessage.trim() || !activeChannelId || sending) return;
+
         setSending(true);
+
+        const newMessage = {
+            body: filteredMessage,
+            channelId: activeChannelId,
+            username: user,
+        }
+
         try {
-            await dispatch(addMessage(newMessage))
+            await dispatch(addMessage(newMessage));
             setMessage('');
         } catch (e) {
             console.error(e);
