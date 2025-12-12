@@ -82,7 +82,7 @@ function LoginPage() {
                                                 name="username"
                                                 autoComplete="username"
                                                 // required=""
-                                                placeholder={t('ui.auth.your_name_placeholder')}
+                                                placeholder={t('ui.auth.your_nickname')}
                                                 className="form-control"
                                                 value={formik.values.username} // Берем значение из Formik
                                                 onChange={formik.handleChange} // Обработчик изменений
@@ -91,7 +91,7 @@ function LoginPage() {
                                             {formik.touched.username && formik.errors.username && (
                                                 <div style={{ color: 'red', fontSize: 13 }}>{formik.errors.username}</div>
                                             )}
-                                            <label htmlFor="username">{t('ui.auth.your_name_placeholder')}</label>
+                                            <label htmlFor="username">{t('ui.auth.your_nickname')}</label>
                                         </div>
 
                                         <div className="form-floating mb-4">

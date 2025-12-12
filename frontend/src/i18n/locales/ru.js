@@ -9,6 +9,7 @@ export default {
         auth: {
             sign_in: 'Войти',
             logout: 'Выйти',
+            your_nickname: 'Ваш ник',
             your_name_placeholder: 'Имя пользователя',
             password_placeholder: 'Пароль',
             confirm_password_placeholder: 'Подтвердите пароль',
