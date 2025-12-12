@@ -28,7 +28,7 @@ function LoginPage() {
             .max(20, t('errors.min_3_max_20_symbols'))
             .required(t('errors.required')),
         password: Yup.string()
-            .min(6, t('errors.min_6_symbols_password'))
+            // .min(6, t('errors.min_6_symbols_password'))
             .required(t('errors.required')),
     })
     const formik = useFormik({
