@@ -43,6 +43,7 @@ const SignupPage = () => {
             setStatus({ error: null });
             try {
                 await dispatch(signupUser({ username: values.username, password: values.password })).unwrap();
+                navigate('/');
             } catch (err) {
                 let message = '';
                 if (err.status === 409) {
@@ -53,7 +54,6 @@ const SignupPage = () => {
                 setStatus({ error: message });
             } finally {
                 setSubmitting(false);
-                navigate('/');
             }
         }
     });
