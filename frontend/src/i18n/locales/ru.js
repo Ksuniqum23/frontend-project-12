@@ -51,12 +51,16 @@ export default {
         min_6_symbols_password: 'Пароль должен быть минимум 6 символов',
         required: 'Обязательное поле',
         confirmPassword: 'Пароли должны совпадать',
-        registration_failed: 'Ошибка регистрации',
-        duplicate_channel: 'Канал с таким именем уже существует',
-        duplicate_user: 'Такой пользователь уже существует',
-        wrong_name_or_password: 'Неверные имя пользователя или пароль',
-        auth_failed: 'Ошибка авторизации',
-        reject_fetch: 'Ошибка при загрузке данных',
-        reject_remove_channel: 'Ошибка при удалении канала',
+
+        e_409: 'Такой пользователь уже существует',
+    //     registration_failed: 'Ошибка регистрации',
+    //
+    //     duplicate_channel: 'Канал с таким именем уже существует',
+    //     duplicate_user: 'Такой пользователь уже существует',
+    //     wrong_name_or_password: 'Неверные имя пользователя или пароль',
+    //     // auth_failed: 'Ошибка авторизации',
+    //     auth_failed: 'Такой пользователь уже существует',
+    //     reject_fetch: 'Ошибка при загрузке данных',
+    //     reject_remove_channel: 'Ошибка при удалении канала',
     },
 }

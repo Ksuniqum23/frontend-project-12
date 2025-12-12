@@ -43,13 +43,17 @@ const SignupPage = () => {
             setStatus({ error: null });
             try {
                 await dispatch(signupUser({ username: values.username, password: values.password })).unwrap();
-                navigate('/');
-
             } catch (err) {
-                const message = err?.message || err || t('errors.registration_failed');
+                let message = '';
+                if (err.status === 409) {
+                    message = t('errors.e_409');
+                } else {
+                    message = err?.message;
+                }
                 setStatus({ error: message });
             } finally {
                 setSubmitting(false);
+                navigate('/');
             }
         }
     });
