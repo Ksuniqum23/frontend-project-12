@@ -40,7 +40,7 @@ export default function ChannelsList() {
 
     const handleAddChannel = async (name) => {
         try {
-            await dispatch(addChannel(name)).unwrap();
+            await dispatch(addChannel(name));
             toast.success(t('ui.channels.channel_created'));
         } catch (e) {
             console.error(e);
@@ -60,7 +60,7 @@ export default function ChannelsList() {
 
     const handleEditChannel = async (channelId, newName) => {
         try {
-            await dispatch(editChannel({ channelId, newName })).unwrap();
+            await dispatch(editChannel({ channelId, newName }));
             toast.success(t('ui.channels.channel_renamed'));
         } catch (e) {
             console.error(e);

@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { connectSocket, disconnectSocket } from '../socket/socket';
-import { initSocketListeners, removeSocketListeners } from '../socket/socketListeners';
+import { connectSocket, disconnectSocket } from './socket.js';
+import { initSocketListeners, removeSocketListeners } from './socketListeners.js';
 
 export default function SocketProvider({ children }) {
     const dispatch = useDispatch();
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const token = useSelector((state) => state.auth.token);
+    const user = useSelector((state) => state.auth.user);
 
     useEffect(() => {
-        if (!isAuthenticated) {
+        if (!user || !token) {
             disconnectSocket();
             return;
         }
@@ -20,7 +21,7 @@ export default function SocketProvider({ children }) {
             removeSocketListeners(socket);
             disconnectSocket();
         };
-    }, [isAuthenticated, dispatch]);
+    }, [user, token, dispatch]);
 
     return children;
 }

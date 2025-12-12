@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './index.css';
 import { store } from './store';
-import SocketProvider from "./components/SocketProvider.jsx";
+import SocketProvider from "./socket/SocketProvider.jsx";
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(

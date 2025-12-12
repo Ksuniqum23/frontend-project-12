@@ -44,7 +44,7 @@ function LoginPage() {
                 await dispatch(loginUser({ username: values.username, password: values.password }));
                 navigate(from, { replace: true });
             } catch (err) {
-                const message = err?.message || err || 'Ошибка авторизации';
+                const message = err?.message || err;
                 setStatus({ error: message });
             } finally {
                 setSubmitting(false); // завершение процесса загрузки в Formik
