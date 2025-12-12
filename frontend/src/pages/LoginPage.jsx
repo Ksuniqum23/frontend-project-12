@@ -13,7 +13,7 @@ function LoginPage() {
     const location = useLocation();
     const { t } = useTranslation();
 
-    const { loading, error: authError } = useSelector((state) => state.auth);
+    const { loading } = useSelector((state) => state.auth);
 
     const from = location.state?.from?.pathname || "/";
     const inputRef = useRef(null);
@@ -39,21 +39,24 @@ function LoginPage() {
         },
         validationSchema,
         onSubmit: async (values, { setSubmitting, setStatus }) => {
-            console.log('Начало onSubmit');
             setStatus({ error: null });
             try {
                 await dispatch(loginUser({ username: values.username, password: values.password })).unwrap();
                 navigate(from, { replace: true });
             } catch (err) {
-                console.log('Ошибка поймана:', err);
-                const message = err?.message || err;
+                let message = '';
+                if (err.statusCode === 401) {
+                    message = t('errors.e_401');
+                } else {
+                    message = err?.message;
+                }
                 setStatus({ error: message });
             } finally {
-                setSubmitting(false); // завершение процесса загрузки в Formik
+                setSubmitting(false);
             }
         },
     });
-    const serverError = formik.status?.error || authError;
+    // const serverError = formik.status?.error || authError;
 
     return (
         <div className="h-100">
@@ -118,16 +121,9 @@ function LoginPage() {
                                     </form>
                                 </div>
 
-                                {serverError && (
-                                    <div style={{
-                                        marginBottom: 12,
-                                        padding: 10,
-                                        background: '#ffecec',
-                                        color: '#b00020',
-                                        borderRadius: 4,
-                                        border: '1px solid #f5c2c2'
-                                    }}>
-                                        {serverError}
+                                {formik.status?.error && (
+                                    <div className="alert alert-danger" role="alert">
+                                        {formik.status.error}
                                     </div>
                                 )}
 

@@ -22,12 +22,10 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        const { response } = error;
-        if (response && response.status === 401) {
-            // при 401 — удаляем токен и можно направить на логин
-            tokenService.remove();
-            window.location.href = '/login';
-        }
+        // const { response } = error;
+        // if (response && response.status === 401) {
+        //     tokenService.remove();
+        // }
         return Promise.reject(error);
     },
 );

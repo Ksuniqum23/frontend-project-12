@@ -8,7 +8,7 @@ export const loginUser = createAsyncThunk(
         try {
             return await loginUserApi(username, password); // => { token: ..., username: 'admin' }
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.response.data);
         }
     }
 )
@@ -19,7 +19,7 @@ export const signupUser = createAsyncThunk(
         try {
             return await signupUserApi(username, password);
         } catch (error) {
-            return rejectWithValue(error);
+            return rejectWithValue(error.response.data);
         }
     }
 )
@@ -28,7 +28,7 @@ const initialState = {
     token: tokenService.get() || null,
     user: null,
     loading: false,
-    error: null,
+    // error: null,
 };
 
 const authSlice = createSlice({
@@ -38,7 +38,7 @@ const authSlice = createSlice({
         logout(state) {
             state.token = null;
             state.user = null;
-            state.error = null;
+            // state.error = null;
             tokenService.remove();
         }
     },
@@ -47,7 +47,7 @@ const authSlice = createSlice({
             // loginUser
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;
-                state.error = null;
+                // state.error = null;
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 // state.isAuthenticated = true;
@@ -60,13 +60,13 @@ const authSlice = createSlice({
                 state.token = null;
                 state.user = null;
                 state.loading = false;
-                state.error = action.payload;
+                // state.error = {message: action.payload.message, status: action.payload.status};
                 tokenService.remove();
             })
             //signupUser
             .addCase(signupUser.pending, (state) => {
                 state.loading = true;
-                state.error = null;
+                // state.error = null;
             })
             .addCase(signupUser.fulfilled, (state, action) => {
                 state.loading = false;
@@ -78,7 +78,7 @@ const authSlice = createSlice({
                 state.token = null;
                 state.user = null;
                 state.loading = false;
-                state.error = {message: action.payload.message, status: action.payload.status};
+                // state.error = {message: action.payload.message, status: action.payload.status};
                 tokenService.remove();
             })
     }

@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signupUser } from "../store/authSlice.js";
@@ -46,7 +46,7 @@ const SignupPage = () => {
                 navigate('/');
             } catch (err) {
                 let message = '';
-                if (err.status === 409) {
+                if (err.statusCode === 409) {
                     message = t('errors.e_409');
                 } else {
                     message = err?.message;
