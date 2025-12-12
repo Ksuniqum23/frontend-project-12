@@ -76,6 +76,7 @@ export default function AddChannelModal({ isOpen, onClose, onSubmit }) {
                                     placeholder={t('ui.channels.new_channel_placeholder')}
                                     required
                                 />
+                                <label className="visually-hidden" htmlFor="channelName">Имя канала</label>
                                 {formik.touched.channelName && formik.errors.channelName && (
                                     <div className="invalid-feedback">{formik.errors.channelName}</div>
                                 )}
