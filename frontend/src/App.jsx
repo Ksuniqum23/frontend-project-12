@@ -6,6 +6,7 @@ import PrivateRoute from "./routes/PrivateRoute.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+// import TestRollbar from "./rollbar/rollbarConfig.jsx";
 
 function App() {
     return (
@@ -29,8 +30,10 @@ function App() {
                 autoClose={3000}
                 hideProgressBar={false}
             />
+            {/*<TestRollbar />*/}
         </>
     )
 }
 
 export default App
+
