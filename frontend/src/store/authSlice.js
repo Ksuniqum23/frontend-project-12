@@ -9,7 +9,7 @@ export const loginUser = createAsyncThunk(
         try {
             return await loginUserApi(username, password); // => { token: ..., username: 'admin' }
         } catch (error) {
-            if (error.response?.status === 401 || error.response?.status === 403) {
+            if (error.response?.status === 401 || error.response?.status === 403 || error.response?.status === 409) {
                 // Получаем перевод из вне
                 const { t } = await import('react-i18next');
                 return rejectWithValue(t('errors.wrong_name_or_password'));
@@ -25,7 +25,7 @@ export const signupUser = createAsyncThunk(
         try {
             return await signupUserApi(username, password);
         } catch (error) {
-            if (error.response?.status === 401 || error.response?.status === 403) {
+            if (error.response?.status === 401 || error.response?.status === 403 || error.response?.status === 409) {
                 // Получаем перевод из вне
                 const { t } = await import('react-i18next');
                 return rejectWithValue(t('errors.duplicate_user'));

@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../store/authSlice.js";
 import * as Yup from 'yup';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import Header from "../components/Header.jsx";
 
 function LoginPage() {
@@ -39,11 +39,13 @@ function LoginPage() {
         },
         validationSchema,
         onSubmit: async (values, { setSubmitting, setStatus }) => {
+            console.log('Начало onSubmit');
             setStatus({ error: null });
             try {
-                await dispatch(loginUser({ username: values.username, password: values.password }));
+                await dispatch(loginUser({ username: values.username, password: values.password })).unwrap();
                 navigate(from, { replace: true });
             } catch (err) {
+                console.log('Ошибка поймана:', err);
                 const message = err?.message || err;
                 setStatus({ error: message });
             } finally {

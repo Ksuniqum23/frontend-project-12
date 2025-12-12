@@ -42,7 +42,7 @@ const SignupPage = () => {
         onSubmit: async (values, { setSubmitting, setStatus }) => {
             setStatus({ error: null });
             try {
-                await dispatch(signupUser({ username: values.username, password: values.password }));
+                await dispatch(signupUser({ username: values.username, password: values.password })).unwrap();
                 navigate('/');
 
             } catch (err) {
@@ -139,6 +139,11 @@ const SignupPage = () => {
                                             </button>
                                         </form>
                                     </div>
+                                    {formik.status?.error && (
+                                        <div className="alert alert-danger" role="alert">
+                                            {formik.status.error}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
