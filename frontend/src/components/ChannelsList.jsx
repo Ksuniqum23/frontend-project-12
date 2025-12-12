@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RemoveChannelModal from "./Modals/RemoveChannelModal.jsx";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import {filterProfanity} from "../profanityFilter/filterProfanity.js";
 
 export default function ChannelsList() {
     const dispatch = useDispatch();
@@ -28,9 +29,9 @@ export default function ChannelsList() {
     const channelsEndRef = useRef(null);
     const { t } = useTranslation();
 
-    useEffect(() => {
-        dispatch(fetchChannels());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(fetchChannels());
+    // }, [dispatch]);
 
     useEffect(() => {
         if (channelsEndRef.current) {
@@ -39,8 +40,9 @@ export default function ChannelsList() {
     }, [channels]);
 
     const handleAddChannel = async (name) => {
+        const filterName = filterProfanity(name.trim());
         try {
-            await dispatch(addChannel(name));
+            await dispatch(addChannel(filterName));
             toast.success(t('ui.channels.channel_created'));
         } catch (e) {
             console.error(e);
