@@ -9,8 +9,8 @@ import './index.css'
 import { store } from './store'
 import SocketProvider from './socket/SocketProvider.jsx'
 import App from './App.jsx'
-import { rollbarConfig } from "./rollbar/rollbarConfig.jsx"
-import Rollbar from "rollbar"
+import { rollbarConfig } from './rollbar/rollbarConfig.jsx'
+import Rollbar from 'rollbar'
 
 const rollbar = new Rollbar(rollbarConfig)
 window.rollbar = rollbar
@@ -24,5 +24,5 @@ createRoot(document.getElementById('root')).render(
         </SocketProvider>
       </BrowserRouter>
     </Provider>
-  </StrictMode>
+  </StrictMode>,
 )
