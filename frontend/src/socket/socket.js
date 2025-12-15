@@ -1,41 +1,40 @@
-import { io } from 'socket.io-client';
-import { tokenService } from '../services/tokenService';
+import { io } from 'socket.io-client'
+import { tokenService } from '../services/tokenService'
 
-let socket = null; //тут храним объект сокета
+let socket = null
 
-export const getSocket = () => socket; //функция возвращает текущий объект сокета
-
+export const getSocket = () => socket
 export const connectSocket = () => {
-    if (socket?.connected) {
-        return socket;
-    }
+  if (socket?.connected) {
+    return socket
+  }
 
-    const token = tokenService.get();
+  const token = tokenService.get()
 
-    socket = io('/', {  //создаем сокет
-        auth: { token },
-    });
+  socket = io('/', {
+    auth: { token },
+  })
 
-    socket.on('connect', () => {
-        console.log('Socket connected:', socket.id);
-    });
+  socket.on('connect', () => {
+    console.log('Socket connected:', socket.id)
+  })
 
-    socket.on('disconnect', (reason) => {
-        console.log('Socket disconnected:', reason);
-    });
+  socket.on('disconnect', (reason) => {
+    console.log('Socket disconnected:', reason)
+  })
 
-    socket.on('connect_error', (error) => {
-        console.error('Socket connection error:', error);
-    });
+  socket.on('connect_error', (error) => {
+    console.error('Socket connection error:', error)
+  })
 
-    return socket;
-};
+  return socket
+}
 
 export const disconnectSocket = () => {
-    if (socket) {
-        socket.disconnect();
-        socket = null;
-    }
-};
+  if (socket) {
+    socket.disconnect()
+    socket = null
+  }
+}
 
-export default { getSocket, connectSocket, disconnectSocket };
+export default { getSocket, connectSocket, disconnectSocket }
