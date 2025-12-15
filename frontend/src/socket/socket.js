@@ -1,10 +1,9 @@
 import { io } from 'socket.io-client'
 import { tokenService } from '../services/tokenService'
 
-let socket = null // тут храним объект сокета
+let socket = null
 
-export const getSocket = () => socket // функция возвращает текущий объект сокета
-
+export const getSocket = () => socket
 export const connectSocket = () => {
   if (socket?.connected) {
     return socket
@@ -12,7 +11,7 @@ export const connectSocket = () => {
 
   const token = tokenService.get()
 
-  socket = io('/', { // создаем сокет
+  socket = io('/', {
     auth: { token },
   })
 

@@ -30,7 +30,6 @@ const initialState = {
   token: tokenService.get() || null,
   user: null,
   loading: false,
-  // error: null,
 }
 
 const authSlice = createSlice({
@@ -40,7 +39,6 @@ const authSlice = createSlice({
     logout(state) {
       state.token = null
       state.user = null
-      // state.error = null;
       tokenService.remove()
     },
   },
@@ -49,26 +47,17 @@ const authSlice = createSlice({
     // loginUser
       .addCase(loginUser.pending, (state) => {
         state.loading = true
-        // state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        // state.isAuthenticated = true;
         state.token = action.payload.token
         state.user = action.payload.username
         state.loading = false
         tokenService.set(action.payload.token)
       })
-      // .addCase(loginUser.rejected, (state, action) => {
-      //   state.token = null
-      //   state.user = null
-      //   state.loading = false
-      //   // state.error = {message: action.payload.message, status: action.payload.status};
-      //   tokenService.remove()
-      // })
+
     // signupUser
       .addCase(signupUser.pending, (state) => {
         state.loading = true
-        // state.error = null;
       })
       .addCase(signupUser.fulfilled, (state, action) => {
         state.loading = false
@@ -76,13 +65,6 @@ const authSlice = createSlice({
         state.user = action.payload.username
         tokenService.set(action.payload.token)
       })
-      // .addCase(signupUser.rejected, (state, action) => {
-      //   state.token = null
-      //   state.user = null
-      //   state.loading = false
-      //   // state.error = {message: action.payload.message, status: action.payload.status};
-      //   tokenService.remove()
-      // })
   },
 })
 

@@ -62,7 +62,7 @@ export const deleteChannel = createAsyncThunk(
 
 const initialState = channelsAdapter.getInitialState({
   activeChannelId: null,
-  status: 'idle', // общий статус загрузки 'idle', 'loading', 'success', 'failed'
+  status: 'idle',
   error: null,
 })
 

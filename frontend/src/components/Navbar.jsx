@@ -15,8 +15,6 @@ export default function Navbar() {
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng)
-    // Можно сохранить в localStorage для запоминания выбора
-    // localStorage.setItem('language', lng);
   }
 
   return (

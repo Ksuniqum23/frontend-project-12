@@ -12,9 +12,8 @@ i18next
     },
     lng: 'ru',
     fallbackLng: 'ru',
-    // debug: process.env.NODE_ENV === 'development',
     interpolation: {
-      escapeValue: false, // React сам экранирует
+      escapeValue: false,
     },
   })
 

@@ -28,11 +28,9 @@ function LoginPage() {
       .max(20, t('errors.min_3_max_20_symbols'))
       .required(t('errors.required')),
     password: Yup.string()
-    // .min(6, t('errors.min_6_symbols_password'))
       .required(t('errors.required')),
   })
   const formik = useFormik({
-    // Начальные значения полей
     initialValues: {
       username: '',
       password: '',
@@ -59,7 +57,6 @@ function LoginPage() {
       }
     },
   })
-  // const serverError = formik.status?.error || authError;
 
   return (
     <div className="h-100">
@@ -85,12 +82,11 @@ function LoginPage() {
                         ref={inputRef}
                         name="username"
                         autoComplete="username"
-                        // required=""
                         placeholder={t('ui.auth.your_nickname')}
                         className="form-control"
-                        value={formik.values.username} // Берем значение из Formik
-                        onChange={formik.handleChange} // Обработчик изменений
-                        onBlur={formik.handleBlur} // Отслеживаем "тронутость" поля
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
                       {formik.touched.username && formik.errors.username && (
                         <div style={{ color: 'red', fontSize: 13 }}>{formik.errors.username}</div>
@@ -102,14 +98,13 @@ function LoginPage() {
                       <input
                         name="password"
                         autoComplete="current-password"
-                        // required=""
                         placeholder={t('ui.auth.password_placeholder')}
                         type="password"
                         id="password"
                         className="form-control"
-                        value={formik.values.password} // Берем значение из Formik
-                        onChange={formik.handleChange} // Обработчик изменений
-                        onBlur={formik.handleBlur} // Отслеживаем "тронутость" поля
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
                       {formik.touched.password && formik.errors.password && (
                         <div style={{ color: 'red', fontSize: 13 }}>{formik.errors.password}</div>
