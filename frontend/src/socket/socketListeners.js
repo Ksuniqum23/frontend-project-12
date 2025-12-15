@@ -6,7 +6,6 @@ import {
 import { addMessageFromSocket } from '../store/messagesSlice'
 
 export const initSocketListeners = (socket, dispatch) => {
-
   socket.on('newMessage', (payload) => {
     console.log('Socket: newMessage', payload)
     dispatch(addMessageFromSocket(payload))
