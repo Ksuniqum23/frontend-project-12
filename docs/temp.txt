@@ -33,3 +33,11 @@
     npm install --save react-toastify
     npm install leo-profanity - фильтр мата
     npm install @rollbar/react rollbar - че-то для оповещения об ошибках
+
+    npm install --save-dev eslint globals @eslint/js eslint-plugin-react @eslint/compat @stylistic/eslint-plugin
+        конфликт пакетов
+        npm uninstall @stylistic/eslint-plugin
+        npm install --save-dev eslint globals @eslint/js eslint-plugin-react @eslint/compat
+    ... боль
+    npx eslint .
+

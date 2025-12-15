@@ -1,7 +1,6 @@
 import js from '@eslint/js'
 import globals from 'globals'
 import pluginReact from 'eslint-plugin-react'
-import { defineConfig } from 'eslint/config'
 import { includeIgnoreFile } from '@eslint/compat'
 import stylistic from '@stylistic/eslint-plugin'
 import { fileURLToPath } from 'url'
@@ -9,12 +8,19 @@ import { fileURLToPath } from 'url'
 const gitIgnorePath = fileURLToPath(new URL('.gitignore', import.meta.url))
 const eslintIgnorePath = fileURLToPath(new URL('.eslintignore', import.meta.url))
 
-export default defineConfig([
+export default [
   includeIgnoreFile(gitIgnorePath),
   includeIgnoreFile(eslintIgnorePath),
+  js.configs.recommended,
   stylistic.configs.recommended,
-  { files: ['**/*.{js,mjs,cjs,jsx}'], plugins: { js }, extends: ['js/recommended'] },
-  { files: ['**/*.{js,mjs,cjs,jsx}'], languageOptions: { globals: globals.browser } },
+  {
+    files: ['**/*.{js,mjs,cjs,jsx}'],
+    languageOptions: {
+      globals: globals.browser,
+      sourceType: 'module',
+      ecmaVersion: 'latest',
+    },
+  },
   pluginReact.configs.flat.recommended,
   {
     rules: {
@@ -23,4 +29,4 @@ export default defineConfig([
       'react/jsx-uses-react': 0,
     },
   },
-])
+]
