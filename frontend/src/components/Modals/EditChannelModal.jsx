@@ -88,7 +88,7 @@ export default function EditChannelModal({ isOpen, onClose, onSubmit, channel })
                                     placeholder={t('ui.channels.new_channel_placeholder')}
                                     required
                                 />
-                                <label className="visually-hidden" htmlFor="name">Имя канала</label>
+                                <label className="visually-hidden" htmlFor="editChannelName">Имя канала</label>
                                 {formik.touched.editChannelName &&
                                     formik.errors.editChannelName && (
                                         <div className="invalid-feedback d-block">
