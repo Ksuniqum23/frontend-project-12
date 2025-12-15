@@ -58,13 +58,13 @@ const authSlice = createSlice({
         state.loading = false
         tokenService.set(action.payload.token)
       })
-      .addCase(loginUser.rejected, (state, action) => {
-        state.token = null
-        state.user = null
-        state.loading = false
-        // state.error = {message: action.payload.message, status: action.payload.status};
-        tokenService.remove()
-      })
+      // .addCase(loginUser.rejected, (state, action) => {
+      //   state.token = null
+      //   state.user = null
+      //   state.loading = false
+      //   // state.error = {message: action.payload.message, status: action.payload.status};
+      //   tokenService.remove()
+      // })
     // signupUser
       .addCase(signupUser.pending, (state) => {
         state.loading = true
@@ -76,13 +76,13 @@ const authSlice = createSlice({
         state.user = action.payload.username
         tokenService.set(action.payload.token)
       })
-      .addCase(signupUser.rejected, (state, action) => {
-        state.token = null
-        state.user = null
-        state.loading = false
-        // state.error = {message: action.payload.message, status: action.payload.status};
-        tokenService.remove()
-      })
+      // .addCase(signupUser.rejected, (state, action) => {
+      //   state.token = null
+      //   state.user = null
+      //   state.loading = false
+      //   // state.error = {message: action.payload.message, status: action.payload.status};
+      //   tokenService.remove()
+      // })
   },
 })
 

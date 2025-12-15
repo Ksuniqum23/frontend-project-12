@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
 import { selectAllChannels } from '../../store/channelsSlice.js'

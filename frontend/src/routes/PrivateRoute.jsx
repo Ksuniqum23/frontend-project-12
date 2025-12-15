@@ -1,5 +1,4 @@
 import { Navigate, useLocation } from 'react-router-dom'
-import { tokenService } from '../services/tokenService.js'
 import { useSelector } from 'react-redux'
 
 const PrivateRoute = ({ children }) => {

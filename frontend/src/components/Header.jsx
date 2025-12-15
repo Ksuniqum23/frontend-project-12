@@ -1,16 +1,10 @@
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 export default function Header() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { t, i18n } = useTranslation()
+  const {  i18n } = useTranslation()
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng)
-    // Можно сохранить в localStorage для запоминания выбора
-    // localStorage.setItem('language', lng);
   }
 
   return (

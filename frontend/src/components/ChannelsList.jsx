@@ -5,7 +5,6 @@ import {
   addChannel,
   deleteChannel,
   editChannel,
-  fetchChannels,
   selectAllChannels,
   setActiveChannel,
 } from '../store/channelsSlice.js'
@@ -28,10 +27,6 @@ export default function ChannelsList() {
   const activeChannelId = useSelector(state => state.channels.activeChannelId)
   const channelsEndRef = useRef(null)
   const { t } = useTranslation()
-
-  // useEffect(() => {
-  //     dispatch(fetchChannels());
-  // }, [dispatch]);
 
   useEffect(() => {
     if (channelsEndRef.current) {
@@ -165,7 +160,6 @@ export default function ChannelsList() {
           </li>
         ))}
         <li ref={channelsEndRef} />
-
       </ul>
     </div>
   )
