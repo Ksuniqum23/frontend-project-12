@@ -128,24 +128,6 @@ export default function ChannelsList() {
                         </button>
 
                         {channel.removable && (
-                            // <button type="button" id="react-aria208008664-:r0:" aria-expanded="true"
-                            //         className="flex-grow-0 dropdown-toggle dropdown-toggle-split show btn btn-secondary">
-                            //     <span className="visually-hidden">Управление каналом</span>
-                            // </button>
-                            // <div x-placement="bottom-start"
-                            //         aria-labelledby="react-aria208008664-:r0:"
-                            //         class="dropdown-menu show"
-                            //         data-popper-reference-hidden="false"
-                            //         data-popper-escaped="false"
-                            //         data-popper-placement="bottom-start"
-                            //         style="position: absolute; inset: 0px auto auto 0px; transform: translate(-8px, 40px);">
-                            //     <a data-rr-ui-dropdown-item="" class="dropdown-item" role="button" tabindex="0" href="#">Удалить</a>
-                            //     <a data-rr-ui-dropdown-item="" class="dropdown-item" role="button" tabindex="0" href="#">Переименовать</a>
-                            // </div>
-                            // <a data-rr-ui-dropdown-item="" class="dropdown-item" role="button" tabindex="0" href="#">{t('ui.common.remove')}</a>
-                            // <a data-rr-ui-dropdown-item="" class="dropdown-item" role="button" tabindex="0" href="#">{t('ui.common.rename')}</a>
-
-
                             <div className="dropdown ms-1">
                                 <button
                                     className="btn btn-outline-secondary btn-sm dropdown-toggle"

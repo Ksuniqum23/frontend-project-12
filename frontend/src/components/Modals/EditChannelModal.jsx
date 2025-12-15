@@ -81,13 +81,14 @@ export default function EditChannelModal({ isOpen, onClose, onSubmit, channel })
                                     name="editChannelName"
                                     id="editChannelName"
                                     className={`mb-2 form-control ${formik.touched.editChannelName &&
-                                        formik.errors.editChannelName ? 'is-invalid' : ''
-                                        }`}
+                                    formik.errors.editChannelName ? 'is-invalid' : ''
+                                    }`}
                                     value={formik.values.editChannelName}
                                     onChange={formik.handleChange}
                                     placeholder={t('ui.channels.new_channel_placeholder')}
                                     required
                                 />
+                                <label className="visually-hidden" htmlFor="name">Имя канала</label>
                                 {formik.touched.editChannelName &&
                                     formik.errors.editChannelName && (
                                         <div className="invalid-feedback d-block">
