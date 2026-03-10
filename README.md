@@ -7,7 +7,7 @@ A training React application, a messenger (Slack-like) with authentication, chan
 
 ## 🚀 Demo
 
-[Посмотреть приложение](https://frontend-project-12-latest.onrender.com)
+[View the application](https://frontend-project-12-latest.onrender.com)
 
 ## ✨ Features
 
