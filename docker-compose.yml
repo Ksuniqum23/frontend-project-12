@@ -1,6 +1,7 @@
 services:
-  app:
-    build: .
+  frontend:
+    image: ksuniqum/frontend-project-12:latest
     ports:
       - "5001:5001"
+    container_name: frontend-project-12
     restart: unless-stopped

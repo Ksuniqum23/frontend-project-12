@@ -3,53 +3,53 @@
 [![Actions Status](https://github.com/Ksuniqum23/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Ksuniqum23/frontend-project-12/actions)
 
 
-учебное React-приложение, мессенджер (аналог Slack) с авторизацией, каналами и обменом сообщениями в реальном времени. Проект создан в рамках обучения в Хекслете.
+A training React application, a messenger (Slack-like) with authentication, channels, and real-time messaging. Created as part of the Hexlet educational program.
 
-## 🚀 Демо
+## 🚀 Demo
 
 [Посмотреть приложение](https://frontend-project-12-latest.onrender.com)
 
-## ✨ Возможности
+## ✨ Features
 
-- Регистрация и авторизация пользователей (JWT)
-- Система каналов (создание, переименование, удаление)
-- Обмен сообщениями в реальном времени
-- Адаптивный интерфейс (React + Bootstrap)
-- Валидация форм и обработка ошибок
+- User registration and authentication (JWT)
+- Channel system (create, rename, delete)
+- Real-time messaging
+- Responsive interface (React + Bootstrap)
+- Form validation and error handling
 
-## 🛠️ Технологии
+## 🛠️ Technologies
 
 - React + React Hooks
-- Redux Toolkit (управление состоянием)
-- React Router (маршрутизация)
-- React Bootstrap (стилизация)
+- Redux Toolkit (state management)
+- React Router (routing)
+- React Bootstrap (styling)
 - Socket.IO (real-time)
-- Axios (HTTP-запросы)
-- Docker (контейнеризация)
+- Axios (HTTP requests)
+- Docker (containerization)
 
-## 🐳 Запуск через Docker
+## 🐳 Running with Docker
 
-### Docker Compose (рекомендуется)
+### Docker Compose (recommended)
 
 ```bash
-# Собрать и запустить
+# Build and run
 docker compose up -d --build
 
-# Посмотреть логи
+# View logs
 docker compose logs -f
 
-# Остановить
+# Stop
 docker compose down
 ```
 
-### Docker (без Compose)
+### Docker (without Compose)
 
 ```bash
-# Собрать образ
+# Build the image
 docker build -t frontend-project-12 .
 
-# Запустить контейнер
+# Run the container
 docker run -d -p 5001:5001 frontend-project-12
 ```
 
-После запуска приложение доступно по адресу: http://localhost:5001
+After launching, the application is available at: http://localhost:5001
