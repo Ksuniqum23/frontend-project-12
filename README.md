@@ -29,14 +29,27 @@
 
 ## 🐳 Запуск через Docker
 
-Образ доступен на Docker Hub:
+### Docker Compose (рекомендуется)
 
 ```bash
-# Скачать образ
-docker pull ksuniqum/frontend-project-12
+# Собрать и запустить
+docker compose up -d --build
+
+# Посмотреть логи
+docker compose logs -f
+
+# Остановить
+docker compose down
+```
+
+### Docker (без Compose)
+
+```bash
+# Собрать образ
+docker build -t frontend-project-12 .
 
 # Запустить контейнер
-docker run -p 5001:5001 ksuniqum/frontend-project-12
+docker run -d -p 5001:5001 frontend-project-12
+```
 
-# После запуска приложение будет доступно по адресу:
-http://localhost:5001
+После запуска приложение доступно по адресу: http://localhost:5001
